@@ -3,5 +3,5 @@ import styles from "./page.module.css";
 import Navbar from "@/components/Navbar/Navbar";
 
 export default function Home() {
-  return <Navbar />;
+  return <h1>Rolca</h1>;
 }
