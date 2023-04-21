@@ -4,8 +4,11 @@ import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import CustomButton from "../Button/Button";
+import { UseFormReset } from "react-hook-form";
+import { IRegisterFormInputs } from "./RegisterModal";
 interface IPopupModalProps {
   isOpen?: boolean;
+  reset: () => void;
   onClose: () => void;
   onSubmit: () => void;
   title: string;
@@ -24,6 +27,7 @@ const PopupModal = ({
   title,
   body,
   footer,
+  reset,
   actionLabel,
   disabled,
   secondaryAction,
@@ -40,8 +44,9 @@ const PopupModal = ({
     setShowModal(false);
     setTimeout(() => {
       onClose();
+      reset();
     }, 200);
-  }, [disabled, onClose]);
+  }, [disabled, onClose, reset]);
 
   const handleSubmit = useCallback(() => {
     if (disabled) return;
