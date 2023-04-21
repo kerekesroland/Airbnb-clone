@@ -9,8 +9,8 @@ interface IPopupModalProps {
   onClose: () => void;
   onSubmit: () => void;
   title: string;
-  body: React.ReactElement;
-  footer: React.ReactElement;
+  body?: React.ReactElement;
+  footer?: React.ReactElement;
   actionLabel: string;
   disabled: boolean;
   secondaryAction?: () => void;
@@ -40,7 +40,7 @@ const PopupModal = ({
     setShowModal(false);
     setTimeout(() => {
       onClose();
-    }, 300);
+    }, 200);
   }, [disabled, onClose]);
 
   const handleSubmit = useCallback(() => {
@@ -57,12 +57,20 @@ const PopupModal = ({
     return null;
   }
 
+  const handleContentClick = (event: React.MouseEvent) => {
+    event.stopPropagation();
+  };
+
   return (
-    <Flex className={styles.overlay}>
-      <Flex className={styles.modal__content}>
+    <Flex onClick={handleCloseModal} className={styles.overlay}>
+      <Flex
+        onClick={handleContentClick}
+        zIndex={320}
+        className={styles.modal__content}
+      >
         <Box
           h="full"
-          transitionDuration={"300s"}
+          transitionDuration={"300ms"}
           className={`${showModal ? styles.modal_opened : styles.modal_closed}`}
         >
           <Box className={styles.content}>
