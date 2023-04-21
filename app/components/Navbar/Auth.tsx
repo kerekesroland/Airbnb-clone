@@ -7,12 +7,16 @@ import { RxHamburgerMenu } from "react-icons/rx";
 import { TfiWorld } from "react-icons/tfi";
 import MenuItem from "./MenuItem";
 import { useCallback, useState } from "react";
+import useRegisterModal, {
+  IRegisterModalStore,
+} from "@/hooks/useRegisterModal";
 
 const Auth = () => {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState<boolean>(false);
   const toggleUserMenu = useCallback(() => {
     setIsUserMenuOpen((value) => !value);
   }, []);
+  const { onOpen }: IRegisterModalStore = useRegisterModal();
 
   return (
     <>
@@ -76,7 +80,7 @@ const Auth = () => {
               w={"170px"}
             >
               <MenuItem label="Login" onClick={() => {}} />
-              <MenuItem label="Sign up" onClick={() => {}} />
+              <MenuItem label="Sign up" onClick={onOpen} />
             </Flex>
           ) : null}
         </Flex>
