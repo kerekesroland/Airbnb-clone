@@ -1,8 +1,9 @@
-import "./globals.css";
-import { Providers } from "../components/providers";
+import "./globals.scss";
+import { Providers } from "./components/providers";
 import { Nunito } from "next/font/google";
-import Navbar from "@/components/Navbar/Navbar";
-import Footer from "@/components/Footer/Footer";
+import Navbar from "@/app/components/Navbar/Navbar";
+import Footer from "@/app/components/Footer/Footer";
+import RegisterModal from "./components/modals/RegisterModal";
 
 const font = Nunito({
   subsets: ["latin"],
@@ -21,6 +22,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={font.className}>
+        <RegisterModal />
         <Navbar />
         <Providers>{children}</Providers>
         <Footer />

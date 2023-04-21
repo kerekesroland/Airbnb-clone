@@ -1,4 +1,5 @@
 "use client";
+import styles from "./Navbar.module.scss";
 import { Box, Button, Flex } from "@chakra-ui/react";
 import { FaSearch } from "react-icons/fa";
 const SearchBar = () => {
@@ -13,8 +14,9 @@ const SearchBar = () => {
       alignItems="center"
       cursor="pointer"
       _hover={{ boxShadow: "0px 5px 5px 0px rgb(224,224,224)" }}
+      className={styles.search_bar__container}
     >
-      <Flex w="100%">
+      <Flex className={styles.search__bar}>
         <Box
           display="flex"
           justifyContent="center"
@@ -25,24 +27,12 @@ const SearchBar = () => {
             Anywhere
           </Button>
         </Box>
-        <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          padding="6px 24px"
-          borderLeft="1px solid #dddddd"
-        >
+        <Box className={styles.search_param}>
           <Button fontSize="14px" fontWeight="700">
             Any week
           </Button>
         </Box>
-        <Box
-          display="flex"
-          justifyContent="center"
-          alignItems="center"
-          padding="6px 24px"
-          borderLeft="1px solid #dddddd"
-        >
+        <Box className={styles.search_param}>
           <Button fontSize="14px" fontWeight="500" color="#717171">
             Add guests
           </Button>
