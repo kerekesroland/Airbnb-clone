@@ -6,17 +6,39 @@ import { ProfileIcon } from "../Icons/Icons";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { TfiWorld } from "react-icons/tfi";
 import MenuItem from "./MenuItem";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import useRegisterModal, {
   IRegisterModalStore,
 } from "@/hooks/useRegisterModal";
 
 const Auth = () => {
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState<boolean>(false);
   const toggleUserMenu = useCallback(() => {
     setIsUserMenuOpen((value) => !value);
   }, []);
   const { onOpen }: IRegisterModalStore = useRegisterModal();
+
+  const handleOpenRegisterModal = () => {
+    toggleUserMenu();
+    onOpen();
+  };
+
+  const handleClickOutside = useCallback((event: MouseEvent) => {
+    if (
+      dropdownRef.current &&
+      !dropdownRef.current.contains(event.target as Node)
+    ) {
+      setIsUserMenuOpen(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener("mouseup", handleClickOutside);
+    return () => {
+      document.removeEventListener("mouseup", handleClickOutside);
+    };
+  }, [handleClickOutside]);
 
   return (
     <>
@@ -43,11 +65,13 @@ const Auth = () => {
         </Box>
 
         <Flex
+          ref={dropdownRef}
           transition="all 0.5s ease"
           position="relative"
           justifyContent="flex-start"
         >
           <Flex
+            ref={dropdownRef}
             onClick={toggleUserMenu}
             gap="1rem"
             padding="5px 5px 5px 12px"
@@ -80,7 +104,7 @@ const Auth = () => {
               w={"170px"}
             >
               <MenuItem label="Login" onClick={() => {}} />
-              <MenuItem label="Sign up" onClick={onOpen} />
+              <MenuItem label="Sign up" onClick={handleOpenRegisterModal} />
             </Flex>
           ) : null}
         </Flex>
