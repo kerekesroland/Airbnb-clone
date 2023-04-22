@@ -4,8 +4,7 @@ import { Box, Button, Flex, Text } from "@chakra-ui/react";
 import { useCallback, useEffect, useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import CustomButton from "../Button/Button";
-import { UseFormReset } from "react-hook-form";
-import { IRegisterFormInputs } from "./RegisterModal";
+
 interface IPopupModalProps {
   isOpen?: boolean;
   reset: () => void;
@@ -66,6 +65,8 @@ const PopupModal = ({
     event.stopPropagation();
   };
 
+  //todo add less padding until 480px
+
   return (
     <Flex onClick={handleCloseModal} className={styles.overlay}>
       <Flex
@@ -96,21 +97,10 @@ const PopupModal = ({
                 <Text className={styles.header_title}>{title}</Text>
               </Box>
             </Box>
-            <Box
-              flex="1 1 auto"
-              position="relative"
-              p="2.5rem"
-              className={styles.body}
-            >
+            <Box flex="1 1 auto" position="relative" className={styles.body}>
               {body}
             </Box>
-            <Flex
-              padding="1.5rem"
-              w="full"
-              flexDirection="row"
-              alignItems="center"
-              gap="1rem"
-            >
+            <Flex className={styles.button__container}>
               {secondaryAction && secondaryActionLabel && (
                 <CustomButton
                   outline

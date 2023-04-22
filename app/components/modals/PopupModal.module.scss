@@ -77,6 +77,26 @@
             }
           }
         }
+
+        .body {
+          padding: 2.5rem;
+
+          @media screen and (max-width: 480px) {
+            padding: 1.5rem;
+          }
+        }
+
+        .button__container {
+          padding: 2.5rem;
+          width: 100%;
+          flex-direction: row;
+          align-items: center;
+          gap: 1rem;
+
+          @media screen and (max-width: 480px) {
+            padding: 1.5rem;
+          }
+        }
       }
     }
 
@@ -121,6 +141,25 @@
                 font-size: 1.2rem;
               }
             }
+          }
+        }
+        .body {
+          padding: 2.5rem;
+
+          @media screen and (max-width: 480px) {
+            padding: 1.5rem;
+          }
+        }
+
+        .button__container {
+          padding: 2.5rem;
+          width: 100%;
+          flex-direction: row;
+          align-items: center;
+          gap: 1rem;
+
+          @media screen and (max-width: 480px) {
+            padding: 1.5rem;
           }
         }
       }
