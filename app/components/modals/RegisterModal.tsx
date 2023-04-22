@@ -14,6 +14,7 @@ import { Box, Flex } from "@chakra-ui/react";
 import RegisterModalHeader from "../RegisterModalHeader/RegisterModalHeader";
 import { InputController } from "../InputController/InputController";
 import { useAuthSchemas } from "@/hooks/useAuthSchemas";
+import { PasswordController } from "../PasswordController/PasswordController";
 export interface IRegisterFormInputs {
   username: string;
   email: string;
@@ -29,13 +30,18 @@ const RegisterModal = () => {
     register,
     handleSubmit,
     reset,
-
+    watch,
     formState: { errors, touchedFields },
   } = useForm<IRegisterFormInputs>({
     resolver: yupResolver(registerSchema),
     reValidateMode: "onChange",
     mode: "onChange",
   });
+
+  const usernameValue = watch("username");
+  const emailValue = watch("email");
+  const passwordValue = watch("password");
+  const confirmPasswordValue = watch("confirmPassword");
 
   const onSubmit: SubmitHandler<IRegisterFormInputs> = async (data) => {
     try {
@@ -63,25 +69,29 @@ const RegisterModal = () => {
           register={register("username")}
           isTouched={touchedFields["username"]}
           error={errors["username"]?.message}
-          placeholder="Username"
+          label="Username"
+          value={usernameValue}
         />
         <InputController
           register={register("email")}
           isTouched={touchedFields["email"]}
           error={errors["email"]?.message}
-          placeholder="Email"
+          label="Email"
+          value={emailValue}
         />
-        <InputController
+        <PasswordController
           register={register("password")}
           isTouched={touchedFields["password"]}
           error={errors["password"]?.message}
-          placeholder="Password"
+          label="Password"
+          value={passwordValue}
         />
-        <InputController
+        <PasswordController
           register={register("confirmPassword")}
           isTouched={touchedFields["confirmPassword"]}
           error={errors["confirmPassword"]?.message}
-          placeholder="Confirm Password"
+          label="Confirm Password"
+          value={confirmPasswordValue}
         />
       </form>
     </Flex>
