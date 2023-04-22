@@ -17,4 +17,17 @@ export interface IInputController {
   placeholder?: string;
   mb?: number;
   labelWeight?: "normal" | "bold";
+  value?: string;
+}
+
+export interface IPasswordController {
+  label?: string;
+  eyeVisible?: boolean;
+  isTouched: boolean | undefined;
+  error?: string;
+  register: any;
+  cy_data?: string;
+  placeholder?: string;
+  labelWeight?: "normal" | "bold";
+  value?: string;
 }
