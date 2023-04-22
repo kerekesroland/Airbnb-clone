@@ -28,7 +28,7 @@ const CustomButton = ({
       position="relative"
       opacity={disabled ? 0.4 : 1}
       cursor={disabled ? "not-allowed" : "pointer"}
-      borderRadius="0.5rem"
+      borderRadius="5px"
       _hover={{
         opacity: "0.8",
       }}
