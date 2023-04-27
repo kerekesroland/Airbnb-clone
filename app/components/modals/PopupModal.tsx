@@ -116,6 +116,7 @@ const PopupModal = ({
                 onClick={handleSubmit}
               />
             </Flex>
+            {footer}
           </Box>
         </Box>
       </Flex>

@@ -87,14 +87,14 @@
         }
 
         .button__container {
-          padding: 2.5rem;
+          padding: 0rem 2.5rem;
           width: 100%;
           flex-direction: row;
           align-items: center;
           gap: 1rem;
 
           @media screen and (max-width: 480px) {
-            padding: 1.5rem;
+            padding: 0rem 1.5rem;
           }
         }
       }
