@@ -18,7 +18,7 @@ const RegisterModalHeader = ({
       <Text fontWeight="bold" fontSize="1.5rem" mb=".5rem">
         {title}
       </Text>
-      <Text color="edf2f7" opacity=".7" fontWeight={400} fontSize=".9rem">
+      <Text color="edf2f7" opacity=".5" fontWeight={600} fontSize=".9rem">
         {subTitle}
       </Text>
     </Box>
