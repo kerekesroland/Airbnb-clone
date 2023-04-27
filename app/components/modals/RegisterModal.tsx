@@ -3,18 +3,21 @@
 import useRegisterModal, {
   IRegisterModalStore,
 } from "@/hooks/useRegisterModal";
+import styles from "./RegisterModal.module.scss";
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import { useState } from "react";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { AiFillGithub } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import PopupModal from "./PopupModal";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import RegisterModalHeader from "../RegisterModalHeader/RegisterModalHeader";
 import { InputController } from "../InputController/InputController";
 import { useAuthSchemas } from "@/hooks/useAuthSchemas";
 import { PasswordController } from "../PasswordController/PasswordController";
+import { toast } from "react-hot-toast";
+import CustomButton from "../Button/Button";
 export interface IRegisterFormInputs {
   username: string;
   email: string;
@@ -47,14 +50,15 @@ const RegisterModal = () => {
     try {
       setLoading(true);
       await axios.post("/api/register", data);
+      toast.success("Registration success!");
       onClose();
       reset();
     } catch (error) {
+      toast.error("Invalid credentials");
       console.log(error);
     } finally {
       setLoading(false);
     }
-    console.log(data);
     setLoading(false);
   };
 
@@ -97,10 +101,42 @@ const RegisterModal = () => {
     </Flex>
   );
 
+  const modalFooter = (
+    <Flex className={styles.footer__buttons}>
+      <CustomButton
+        onClick={() => {}}
+        iconShow
+        outline
+        label="Sign in with Google"
+        secondaryLabel="Google"
+        icon={FcGoogle}
+      />
+      <CustomButton
+        onClick={() => {}}
+        iconShow
+        outline
+        label="Sign in with Github"
+        secondaryLabel="Github"
+        icon={AiFillGithub}
+      />
+      <Box mt="1rem" color="#B2BDCC" fontWeight="600">
+        <Flex flexDirection="row" alignItems="center" gap="0.5rem">
+          <Box>Already have an account?</Box>
+          <Box>
+            <Text cursor="pointer" color="#606060">
+              Log in
+            </Text>
+          </Box>
+        </Flex>
+      </Box>
+    </Flex>
+  );
+
   return (
     <PopupModal
       title="Register"
       body={modalBody}
+      footer={modalFooter}
       actionLabel="Continue"
       onClose={onClose}
       onSubmit={handleSubmit(onSubmit)}
