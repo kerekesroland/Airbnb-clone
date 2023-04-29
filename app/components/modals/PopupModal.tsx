@@ -65,8 +65,6 @@ const PopupModal = ({
     event.stopPropagation();
   };
 
-  //todo add less padding until 480px
-
   return (
     <Flex onClick={handleCloseModal} className={styles.overlay}>
       <Flex
