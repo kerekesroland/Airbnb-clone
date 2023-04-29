@@ -66,13 +66,12 @@ const Auth = () => {
 
         <Flex
           ref={dropdownRef}
+          onClick={toggleUserMenu}
           transition="all 0.5s ease"
           position="relative"
           justifyContent="flex-start"
         >
           <Flex
-            ref={dropdownRef}
-            onClick={toggleUserMenu}
             gap="1rem"
             padding="5px 5px 5px 12px"
             justifyContent="center"
@@ -101,7 +100,7 @@ const Auth = () => {
               boxShadow="0px 5px 5px 0px rgb(224,224,224)"
               flexDirection="column"
               textAlign="left"
-              w={"170px"}
+              w="170px"
             >
               <MenuItem label="Login" onClick={() => {}} />
               <MenuItem label="Sign up" onClick={handleOpenRegisterModal} />

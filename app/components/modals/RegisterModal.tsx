@@ -27,7 +27,7 @@ export interface IRegisterFormInputs {
 
 const RegisterModal = () => {
   const [loading, setLoading] = useState<boolean>(false);
-  const { isOpen, onClose, onOpen }: IRegisterModalStore = useRegisterModal();
+  const { isOpen, onClose }: IRegisterModalStore = useRegisterModal();
   const { registerSchema } = useAuthSchemas();
   const {
     register,
