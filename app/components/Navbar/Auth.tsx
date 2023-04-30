@@ -10,6 +10,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import useRegisterModal, {
   IRegisterModalStore,
 } from "@/hooks/useRegisterModal";
+import useLoginModal, { ILoginModalStore } from "@/hooks/useLoginModal";
 
 const Auth = () => {
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -18,10 +19,16 @@ const Auth = () => {
     setIsUserMenuOpen((value) => !value);
   }, []);
   const { onOpen }: IRegisterModalStore = useRegisterModal();
+  const { onOpen: openLoginModal }: ILoginModalStore = useLoginModal();
 
   const handleOpenRegisterModal = () => {
     toggleUserMenu();
     onOpen();
+  };
+
+  const handleOpenLoginModal = () => {
+    toggleUserMenu();
+    openLoginModal();
   };
 
   const handleClickOutside = useCallback((event: MouseEvent) => {
@@ -102,7 +109,7 @@ const Auth = () => {
               textAlign="left"
               w="170px"
             >
-              <MenuItem label="Login" onClick={() => {}} />
+              <MenuItem label="Login" onClick={handleOpenLoginModal} />
               <MenuItem label="Sign up" onClick={handleOpenRegisterModal} />
             </Flex>
           ) : null}
