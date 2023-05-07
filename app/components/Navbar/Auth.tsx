@@ -11,8 +11,16 @@ import useRegisterModal, {
   IRegisterModalStore,
 } from "@/hooks/useRegisterModal";
 import useLoginModal, { ILoginModalStore } from "@/hooks/useLoginModal";
+import { signOut } from "next-auth/react";
+import { toast } from "react-hot-toast";
+import { IUser } from "@/app/models";
+import Image from "next/image";
 
-const Auth = () => {
+interface IProps {
+  user: IUser | null;
+}
+
+const Auth = ({ user }: IProps) => {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [isUserMenuOpen, setIsUserMenuOpen] = useState<boolean>(false);
   const toggleUserMenu = useCallback(() => {
@@ -29,6 +37,17 @@ const Auth = () => {
   const handleOpenLoginModal = () => {
     toggleUserMenu();
     openLoginModal();
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut();
+      setTimeout(() => {
+        toast.success("Successfully logged out!");
+      }, 200);
+    } catch (error) {
+      toast.error("Error while logging out");
+    }
   };
 
   const handleClickOutside = useCallback((event: MouseEvent) => {
@@ -93,7 +112,23 @@ const Auth = () => {
             _hover={{ boxShadow: "0px 5px 5px 0px rgb(224,224,224)" }}
           >
             <RxHamburgerMenu cursor="pointer" />
-            <ProfileIcon />
+            {user && user.image ? (
+              <Flex width="32px" height="32px" borderRadius="50%">
+                <Image
+                  src={user.image}
+                  alt="profile image"
+                  style={{
+                    borderRadius: "50%",
+                    objectFit: "cover",
+                  }}
+                  quality={100}
+                  width={32}
+                  height={32}
+                />
+              </Flex>
+            ) : (
+              <ProfileIcon />
+            )}
           </Flex>
           {isUserMenuOpen ? (
             <Flex
@@ -109,8 +144,21 @@ const Auth = () => {
               textAlign="left"
               w="170px"
             >
-              <MenuItem label="Login" onClick={handleOpenLoginModal} />
-              <MenuItem label="Sign up" onClick={handleOpenRegisterModal} />
+              {user ? (
+                <>
+                  <MenuItem label="My trips" onClick={() => {}} />
+                  <MenuItem label="My reservations" onClick={() => {}} />
+                  <MenuItem label="My favorites" onClick={() => {}} />
+                  <MenuItem label="My properties" onClick={() => {}} />
+                  <MenuItem label="Airbnb my home" onClick={() => {}} />
+                  <MenuItem label="Logout" onClick={handleLogout} />
+                </>
+              ) : (
+                <>
+                  <MenuItem label="Login" onClick={handleOpenLoginModal} />
+                  <MenuItem label="Sign up" onClick={handleOpenRegisterModal} />
+                </>
+              )}
             </Flex>
           ) : null}
         </Flex>
