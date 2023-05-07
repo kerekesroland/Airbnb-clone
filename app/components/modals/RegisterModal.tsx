@@ -18,6 +18,7 @@ import { useAuthSchemas } from "@/hooks/useAuthSchemas";
 import { PasswordController } from "../PasswordController/PasswordController";
 import { toast } from "react-hot-toast";
 import CustomButton from "../Button/Button";
+import { signIn } from "next-auth/react";
 export interface IRegisterFormInputs {
   username: string;
   email: string;
@@ -53,9 +54,8 @@ const RegisterModal = () => {
       toast.success("Registration success!");
       onClose();
       reset();
-    } catch (error) {
-      toast.error("Invalid credentials");
-      console.log(error);
+    } catch (error: any) {
+      toast.error(error.response.data.message);
     } finally {
       setLoading(false);
     }
@@ -104,7 +104,9 @@ const RegisterModal = () => {
   const modalFooter = (
     <Flex className={styles.footer__buttons}>
       <CustomButton
-        onClick={() => {}}
+        onClick={() => {
+          signIn("google");
+        }}
         iconShow
         outline
         label="Sign in with Google"
@@ -112,7 +114,9 @@ const RegisterModal = () => {
         icon={FcGoogle}
       />
       <CustomButton
-        onClick={() => {}}
+        onClick={() => {
+          signIn("github");
+        }}
         iconShow
         outline
         label="Sign in with Github"

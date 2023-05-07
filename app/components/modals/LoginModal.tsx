@@ -1,6 +1,5 @@
 "use client";
 
-import axios from "axios";
 import { signIn } from "next-auth/react";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
@@ -98,7 +97,9 @@ const LoginModal = () => {
   const modalFooter = (
     <Flex className={styles.footer__buttons}>
       <CustomButton
-        onClick={() => {}}
+        onClick={() => {
+          signIn("google");
+        }}
         iconShow
         outline
         label="Sign in with Google"
@@ -106,7 +107,9 @@ const LoginModal = () => {
         icon={FcGoogle}
       />
       <CustomButton
-        onClick={() => {}}
+        onClick={() => {
+          signIn("github");
+        }}
         iconShow
         outline
         label="Sign in with Github"
