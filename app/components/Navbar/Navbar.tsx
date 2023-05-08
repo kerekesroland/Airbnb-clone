@@ -7,17 +7,22 @@ import SearchBar from "./Searchbar";
 import Auth from "./Auth";
 import { IUser } from "@/app/models";
 import Categories from "../Categories/Categories";
+import { useRouter } from "next/navigation";
 
 interface IProps {
   user: IUser | null;
 }
 
 const Navbar = ({ user }: IProps) => {
+  const router = useRouter();
+  const handleGoToHome = () => {
+    router.push("/");
+  };
   return (
     <>
       <Box className={styles.nav__container}>
         <Flex className={styles.nav_items__container}>
-          <Box className={styles.logo__container}>
+          <Box onClick={handleGoToHome} className={styles.logo__container}>
             <Logo />
           </Box>
           <Box className={styles.search__container}>

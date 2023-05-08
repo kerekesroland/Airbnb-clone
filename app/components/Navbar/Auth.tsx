@@ -132,6 +132,7 @@ const Auth = ({ user }: IProps) => {
           </Flex>
           {isUserMenuOpen ? (
             <Flex
+              zIndex={2}
               overflow="hidden"
               borderRadius="10px"
               border="1px solid #e0e0e0"
