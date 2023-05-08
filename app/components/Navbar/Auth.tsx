@@ -39,6 +39,12 @@ const Auth = ({ user }: IProps) => {
     openLoginModal();
   };
 
+  const handleOpenRent = useCallback(() => {
+    if (!user) {
+      return openLoginModal();
+    }
+  }, [user, openLoginModal]);
+
   const handleLogout = async () => {
     try {
       await signOut();
@@ -70,6 +76,7 @@ const Auth = ({ user }: IProps) => {
     <>
       <Flex alignItems="center" justifyContent="flex-start" gap=".3rem">
         <Box
+          onClick={handleOpenRent}
           cursor="pointer"
           p="12px"
           borderRadius="22px"

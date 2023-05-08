@@ -78,6 +78,34 @@ const LoginModal = () => {
     });
   };
 
+  const signInWithGoogle = () => {
+    signIn("google").then((callback) => {
+      if (callback?.ok) {
+        toast.success("Logged in");
+        router.refresh();
+        onClose();
+      }
+
+      if (callback?.error) {
+        toast.error(callback.error);
+      }
+    });
+  };
+
+  const signInWithGithub = () => {
+    signIn("github").then((callback) => {
+      if (callback?.ok) {
+        toast.success("Logged in");
+        router.refresh();
+        onClose();
+      }
+
+      if (callback?.error) {
+        toast.error(callback.error);
+      }
+    });
+  };
+
   const modalBody = (
     <Flex flexDirection="column" gap="1.5rem" justifyContent="center">
       <LoginModalHeader
@@ -106,9 +134,7 @@ const LoginModal = () => {
   const modalFooter = (
     <Flex className={styles.footer__buttons}>
       <CustomButton
-        onClick={() => {
-          signIn("google");
-        }}
+        onClick={signInWithGoogle}
         iconShow
         outline
         label="Sign in with Google"
@@ -116,9 +142,7 @@ const LoginModal = () => {
         icon={FcGoogle}
       />
       <CustomButton
-        onClick={() => {
-          signIn("github");
-        }}
+        onClick={signInWithGithub}
         iconShow
         outline
         label="Sign in with Github"
