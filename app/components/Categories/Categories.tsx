@@ -1,24 +1,30 @@
-import { Flex, Text } from "@chakra-ui/react";
+"use client";
+
+import { usePathname } from "next/navigation";
 import React, { useRef, useState } from "react";
-import { TbBeach, TbSailboat, TbCampfire } from "react-icons/tb";
-import {
-  GiTreehouse,
-  GiSpookyHouse,
-  GiDesert,
-  GiIsland,
-  GiElvenCastle,
-} from "react-icons/gi";
 import { BiBed } from "react-icons/bi";
 import { BsSnow } from "react-icons/bs";
+import { FaSwimmingPool } from "react-icons/fa";
+import {
+  GiDesert,
+  GiElvenCastle,
+  GiIsland,
+  GiSpookyHouse,
+  GiTreehouse,
+} from "react-icons/gi";
+import { IoDiamond } from "react-icons/io5";
 import {
   MdHouseSiding,
-  MdOutlinePanorama,
-  MdOutlineKeyboardArrowRight,
   MdOutlineKeyboardArrowLeft,
+  MdOutlineKeyboardArrowRight,
+  MdOutlinePanorama,
 } from "react-icons/md";
-import { FaSwimmingPool } from "react-icons/fa";
 import { RiFireLine } from "react-icons/ri";
+import { TbBeach, TbCampfire, TbMountain, TbSailboat } from "react-icons/tb";
 
+import { Flex } from "@chakra-ui/react";
+
+import CategoryItem from "../CategoryItem/CategoryItem";
 import styles from "./Categories.module.scss";
 
 type Props = {};
@@ -27,7 +33,7 @@ export const CATEGORIES = [
   {
     label: "Rooms",
     image: BiBed,
-    desc: "Close to the beach",
+    desc: "Just a room",
     active: false,
   },
   {
@@ -37,92 +43,98 @@ export const CATEGORIES = [
     active: false,
   },
   {
+    label: "Countryside",
+    image: TbMountain,
+    desc: "This is in the countryside",
+    active: false,
+  },
+  {
     label: "Mansions",
     image: GiSpookyHouse,
-    desc: "Close to the beach",
+    desc: "This is a huge mansion",
     active: false,
   },
   {
     label: "Treehouses",
     image: GiTreehouse,
-    desc: "Close to the beach",
+    desc: "A tree house",
     active: false,
   },
   {
     label: "Cabins",
     image: MdHouseSiding,
-    desc: "Close to the beach",
+    desc: "This is a cabin",
     active: false,
   },
   {
     label: "Pool",
     image: FaSwimmingPool,
-    desc: "Close to the beach",
+    desc: "It has pools",
+    active: false,
+  },
+  {
+    label: "Luxury",
+    image: IoDiamond,
+    desc: "Luxury apartments",
     active: false,
   },
   {
     label: "Desert",
     image: GiDesert,
-    desc: "Close to the beach",
+    desc: "This property is in the deset",
     active: false,
   },
   {
     label: "Islands",
     image: GiIsland,
-    desc: "Close to the beach",
+    desc: "This is on an island",
     active: false,
   },
   {
     label: "Arctics",
     image: BsSnow,
-    desc: "Close to the beach",
+    desc: "This property is on the Arctics",
     active: false,
   },
   {
     label: "Boats",
     image: TbSailboat,
-    desc: "Close to the beach",
+    desc: "This property is on a boat",
     active: false,
   },
   {
     label: "Amazing views",
     image: MdOutlinePanorama,
-    desc: "Close to the beach",
+    desc: "This property has amazing views",
     active: false,
   },
   {
     label: "Castle",
     image: GiElvenCastle,
-    desc: "Close to the beach",
+    desc: "This property is inside a castle",
     active: false,
   },
   {
     label: "Fire",
     image: RiFireLine,
-    desc: "Close to the beach",
+    desc: "This is one of the most popular properties",
     active: false,
   },
   {
     label: "Camping",
     image: TbCampfire,
-    desc: "Close to the beach",
+    desc: "This property is on a campsite",
     active: false,
   },
 ];
 
 const Categories = (props: Props) => {
+  const path = usePathname();
+  const mainPage = path === "/";
+
   const [active, setActive] = useState<string>();
   const containerRef: any = useRef(null);
   const scrollDistance = containerRef.current?.clientWidth || 62;
-  const handleActiveTab = (label: string) => {
-    setActive((prevActive) => (prevActive === label ? undefined : label));
-  };
-
-  const classes = (label: string) => {
-    return label === active
-      ? styles.category_container.concat(" ").concat(styles.active)
-      : styles.category_container;
-  };
 
   const scrollToNext = () => {
     if (containerRef?.current?.scrollLeft !== undefined) {
@@ -134,6 +146,11 @@ const Categories = (props: Props) => {
       containerRef.current.scrollLeft -= scrollDistance;
     }
   };
+
+  if (!mainPage) {
+    return null;
+  }
+
   return (
     <Flex className={styles.container}>
       <Flex
@@ -149,15 +166,14 @@ const Categories = (props: Props) => {
       </Flex>
       <Flex ref={containerRef} className={styles.categories_container}>
         {CATEGORIES.map(({ label, image: Icon, desc }) => (
-          <Flex
-            cursor="pointer"
-            onClick={() => handleActiveTab(label)}
-            className={classes(label)}
+          <CategoryItem
+            active={active as string}
+            setActive={setActive}
             key={label}
-          >
-            <Icon className={styles.icon} size={24} />
-            <Text className={styles.label}>{label}</Text>
-          </Flex>
+            label={label}
+            icon={Icon}
+            desc={desc}
+          />
         ))}
       </Flex>
       <Flex
