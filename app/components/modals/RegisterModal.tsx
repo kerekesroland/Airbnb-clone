@@ -6,7 +6,7 @@ import useRegisterModal, {
 import styles from "./RegisterModal.module.scss";
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { AiFillGithub } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
@@ -19,6 +19,7 @@ import { PasswordController } from "../PasswordController/PasswordController";
 import { toast } from "react-hot-toast";
 import CustomButton from "../Button/Button";
 import { signIn } from "next-auth/react";
+import useLoginModal, { ILoginModalStore } from "@/hooks/useLoginModal";
 export interface IRegisterFormInputs {
   username: string;
   email: string;
@@ -29,6 +30,7 @@ export interface IRegisterFormInputs {
 const RegisterModal = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const { isOpen, onClose }: IRegisterModalStore = useRegisterModal();
+  const { onOpen }: ILoginModalStore = useLoginModal();
   const { registerSchema } = useAuthSchemas();
   const {
     register,
@@ -46,6 +48,11 @@ const RegisterModal = () => {
   const emailValue = watch("email");
   const passwordValue = watch("password");
   const confirmPasswordValue = watch("confirmPassword");
+
+  const handleToggleModals = useCallback(() => {
+    onClose();
+    onOpen();
+  }, [onClose, onOpen]);
 
   const onSubmit: SubmitHandler<IRegisterFormInputs> = async (data) => {
     try {
@@ -127,7 +134,7 @@ const RegisterModal = () => {
         <Flex flexDirection="row" alignItems="center" gap="0.5rem">
           <Box>Already have an account?</Box>
           <Box>
-            <Text cursor="pointer" color="#606060">
+            <Text onClick={handleToggleModals} cursor="pointer" color="#606060">
               Log in
             </Text>
           </Box>

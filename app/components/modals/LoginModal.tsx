@@ -1,7 +1,7 @@
 "use client";
 
 import { signIn } from "next-auth/react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { toast } from "react-hot-toast";
 import { AiFillGithub } from "react-icons/ai";
@@ -19,6 +19,9 @@ import { PasswordController } from "../PasswordController/PasswordController";
 import PopupModal from "./PopupModal";
 import styles from "./RegisterModal.module.scss";
 import { useRouter } from "next/navigation";
+import useRegisterModal, {
+  IRegisterModalStore,
+} from "@/hooks/useRegisterModal";
 
 export interface ILoginFormInputs {
   username: string;
@@ -30,6 +33,7 @@ export interface ILoginFormInputs {
 const LoginModal = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const { isOpen, onClose }: ILoginModalStore = useLoginModal();
+  const { onOpen }: IRegisterModalStore = useRegisterModal();
   const { loginSchema } = useAuthSchemas();
   const {
     register,
@@ -47,6 +51,11 @@ const LoginModal = () => {
   const passwordValue = watch("password");
 
   const router = useRouter();
+
+  const handleToggleModals = useCallback(() => {
+    onClose();
+    onOpen();
+  }, [onClose, onOpen]);
 
   const onSubmit: SubmitHandler<ILoginFormInputs> = (data) => {
     setLoading(true);
@@ -120,7 +129,7 @@ const LoginModal = () => {
         <Flex flexDirection="row" alignItems="center" gap="0.5rem">
           <Box>Don`t have an account?</Box>
           <Box>
-            <Text cursor="pointer" color="#606060">
+            <Text onClick={handleToggleModals} cursor="pointer" color="#606060">
               Sign up
             </Text>
           </Box>

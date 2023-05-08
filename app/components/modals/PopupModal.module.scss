@@ -38,7 +38,7 @@
 
     .modal_opened {
       transform: translateY(0%);
-      overflow-y: scroll;
+      overflow-y: auto;
       opacity: 100;
       width: 100%;
       .content {
