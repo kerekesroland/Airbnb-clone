@@ -15,6 +15,7 @@ import { signOut } from "next-auth/react";
 import { toast } from "react-hot-toast";
 import { IUser } from "@/app/models";
 import Image from "next/image";
+import useRentModal, { IRentModalStore } from "@/hooks/useRentModal";
 
 interface IProps {
   user: IUser | null;
@@ -28,6 +29,7 @@ const Auth = ({ user }: IProps) => {
   }, []);
   const { onOpen }: IRegisterModalStore = useRegisterModal();
   const { onOpen: openLoginModal }: ILoginModalStore = useLoginModal();
+  const { onOpen: openRentModal }: IRentModalStore = useRentModal();
 
   const handleOpenRegisterModal = () => {
     toggleUserMenu();
@@ -43,7 +45,9 @@ const Auth = ({ user }: IProps) => {
     if (!user) {
       return openLoginModal();
     }
-  }, [user, openLoginModal]);
+
+    openRentModal();
+  }, [user, openLoginModal, openRentModal]);
 
   const handleLogout = async () => {
     try {
@@ -158,7 +162,7 @@ const Auth = ({ user }: IProps) => {
                   <MenuItem label="My reservations" onClick={() => {}} />
                   <MenuItem label="My favorites" onClick={() => {}} />
                   <MenuItem label="My properties" onClick={() => {}} />
-                  <MenuItem label="Airbnb my home" onClick={() => {}} />
+                  <MenuItem label="Airbnb my home" onClick={openRentModal} />
                   <MenuItem label="Logout" onClick={handleLogout} />
                 </>
               ) : (
