@@ -1,0 +1,22 @@
+.categoryPick {
+  position: relative;
+  margin-top: 1rem;
+  min-height: 68px;
+  width: 189px;
+  padding: 26px 19px;
+  border: 1px solid #eeeeee;
+  transition: all 0.2s ease-out;
+  border-radius: 10px;
+  flex-direction: column;
+  cursor: pointer;
+
+  &.active {
+    box-shadow: 0 0 0 2px #242424;
+    border: 1px solid transparent;
+  }
+
+  &:hover {
+    box-shadow: 0 0 0 2px #242424;
+    border: 1px solid transparent;
+  }
+}
