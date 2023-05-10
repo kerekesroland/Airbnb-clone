@@ -18,6 +18,7 @@ export const useAuthSchemas = () => {
     passwordLowerCaseError: "Password must have an lower case character",
     passwordSpecialCharacterError: "Password must have a special character",
     passwordNumberRequiredError: "Password must have a number included",
+    propertyTypeRequiredError: "You must select a property type",
   };
 
   const registerSchema = yup.object({
@@ -104,8 +105,13 @@ export const useAuthSchemas = () => {
     password: yup.string().required(errors.passwordRequiredError),
   });
 
+  const rentSchema = yup.object().shape({
+    propertyType: yup.string().required(errors.propertyTypeRequiredError),
+  });
+
   return {
     registerSchema,
     loginSchema,
+    rentSchema,
   };
 };
