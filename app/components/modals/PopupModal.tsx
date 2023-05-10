@@ -54,7 +54,7 @@ const PopupModal = ({
 
   const handleSecondaryAction = useCallback(() => {
     if (disabled || !secondaryAction) return;
-    handleSecondaryAction();
+    secondaryAction();
   }, [disabled, secondaryAction]);
 
   if (!isOpen) {
