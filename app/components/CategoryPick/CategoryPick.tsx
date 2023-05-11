@@ -3,10 +3,8 @@ import React from "react";
 import { IconType } from "react-icons";
 import styles from "./CategoryPick.module.scss";
 import { motion } from "framer-motion";
+import { IRentInputProps } from "@/inferfaces/IRentInputProps";
 
-interface IRentInputProps {
-  propertyType: string;
-}
 type Props = {
   label: string;
   desc: string;

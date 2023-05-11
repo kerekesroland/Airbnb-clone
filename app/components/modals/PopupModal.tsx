@@ -17,6 +17,7 @@ interface IPopupModalProps {
   disabled: boolean;
   secondaryAction?: () => void;
   secondaryActionLabel?: string;
+  noOverflow?: boolean;
 }
 
 const PopupModal = ({
@@ -31,6 +32,7 @@ const PopupModal = ({
   disabled,
   secondaryAction,
   secondaryActionLabel,
+  noOverflow = false,
 }: IPopupModalProps) => {
   const [showModal, setShowModal] = useState(isOpen);
 
@@ -75,6 +77,7 @@ const PopupModal = ({
         <Box
           h="full"
           transitionDuration={"300ms"}
+          overflowY={noOverflow ? "hidden" : "auto"}
           className={`${showModal ? styles.modal_opened : styles.modal_closed}`}
         >
           <Box className={styles.content}>
