@@ -3,21 +3,14 @@
 import React, { useCallback, useMemo, useState } from "react";
 import PopupModal from "./PopupModal";
 import useRentModal from "@/hooks/useRentModal";
-import { Box, Flex } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { useAuthSchemas } from "@/hooks/useAuthSchemas";
-import RentModalHeader from "../RentModalHeader/RentModalHeader";
-import { CATEGORIES } from "@/constants/categories";
-import CategoryPick from "../CategoryPick/CategoryPick";
-import { motion } from "framer-motion";
-import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 import CategorySelector from "../RentModalSteps/CategorySelector";
 import CountrySelector from "../RentModalSteps/CountrySelector";
-
-interface IRentInputProps {
-  propertyType: string;
-}
+import { ICountryValue } from "@/inferfaces/ICountryValue";
+import { IRentInputProps } from "@/inferfaces/IRentInputProps";
 
 enum steps {
   CATEGORY = 0,
@@ -39,6 +32,16 @@ const RentModal = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [step, setStep] = useState(steps.CATEGORY);
   const [activeCategory, setActiveCategory] = useState<string>("");
+  const [countryValue, setCountryValue] = useState<ICountryValue | undefined>(
+    undefined
+  );
+  const [countryValidation, setCountryValidation] = useState<boolean>(false);
+
+  const onCountryChange = (value: ICountryValue) => {
+    console.log("onCountryChange");
+    setCountryValue(value);
+    handleSetValue("country", value?.label || undefined);
+  };
 
   const handlePrevStep = useCallback(() => {
     setStep((prev) => prev - 1);
@@ -81,6 +84,7 @@ const RentModal = () => {
 
   const validateStep = async () => {
     const propertyTypeTrigger = () => [trigger?.("propertyType")];
+    const countryTrigger = () => [trigger?.("country")];
 
     switch (step) {
       case 0:
@@ -88,7 +92,17 @@ const RentModal = () => {
         if (propertyValidation.every((item) => item === true)) {
           handleNextStep();
         }
+        break;
       case 1:
+        setCountryValidation(true);
+        const countryValidationTrigger = await Promise.all(countryTrigger());
+        if (countryValidationTrigger.every((item) => item === true)) {
+          handleNextStep();
+        }
+        break;
+
+      default:
+        break;
     }
   };
 
@@ -104,7 +118,6 @@ const RentModal = () => {
     });
   };
 
-  console.log(errors);
   const renderStep = () => {
     switch (step) {
       case 0:
@@ -117,7 +130,14 @@ const RentModal = () => {
           />
         );
       case 1:
-        return <CountrySelector />;
+        return (
+          <CountrySelector
+            errors={errors}
+            countryValidation={countryValidation}
+            value={countryValue}
+            onChange={onCountryChange}
+          />
+        );
       default:
         return <></>;
     }
@@ -128,6 +148,7 @@ const RentModal = () => {
   return (
     <PopupModal
       actionLabel={primaryLabel}
+      noOverflow={step === 1 && true}
       body={modalBody}
       footer={<Box paddingBottom="40px" />}
       secondaryActionLabel={secondaryLabel}
@@ -137,6 +158,7 @@ const RentModal = () => {
       onClose={() => {
         onClose();
         setActiveCategory("");
+        setCountryValue(undefined);
       }}
       onSubmit={validateStep}
       reset={reset}
