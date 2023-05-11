@@ -6,10 +6,7 @@ import CategoryPick from "../CategoryPick/CategoryPick";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 import RentModalHeader from "../RentModalHeader/RentModalHeader";
 import { FieldErrors } from "react-hook-form";
-
-interface IRentInputProps {
-  propertyType: string;
-}
+import { IRentInputProps } from "@/inferfaces/IRentInputProps";
 
 interface IProps {
   errors: FieldErrors<IRentInputProps>;
