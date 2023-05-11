@@ -12,6 +12,7 @@ import CountrySelector from "../RentModalSteps/CountrySelector";
 import { ICountryValue } from "@/inferfaces/ICountryValue";
 import { IRentInputProps } from "@/inferfaces/IRentInputProps";
 import Location from "../Location/Location";
+import PropertyDetails from "../RentModalSteps/PropertyDetails";
 
 enum steps {
   CATEGORY = 0,
@@ -144,6 +145,8 @@ const RentModal = () => {
             <Location center={countryValue?.latlong} />
           </>
         );
+      case 2:
+        return <PropertyDetails />;
 
       default:
         return <></>;
