@@ -19,6 +19,7 @@ export const useAuthSchemas = () => {
     passwordSpecialCharacterError: "Password must have a special character",
     passwordNumberRequiredError: "Password must have a number included",
     propertyTypeRequiredError: "You must select a property type",
+    countryRequiredError: "You must select a country",
   };
 
   const registerSchema = yup.object({
@@ -107,6 +108,7 @@ export const useAuthSchemas = () => {
 
   const rentSchema = yup.object().shape({
     propertyType: yup.string().required(errors.propertyTypeRequiredError),
+    country: yup.string().required(errors.countryRequiredError),
   });
 
   return {
