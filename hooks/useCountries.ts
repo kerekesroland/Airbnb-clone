@@ -23,3 +23,5 @@ const useCountries = () => {
     getCountry,
   };
 };
+
+export default useCountries;
