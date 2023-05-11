@@ -11,6 +11,7 @@ import CategorySelector from "../RentModalSteps/CategorySelector";
 import CountrySelector from "../RentModalSteps/CountrySelector";
 import { ICountryValue } from "@/inferfaces/ICountryValue";
 import { IRentInputProps } from "@/inferfaces/IRentInputProps";
+import Location from "../Location/Location";
 
 enum steps {
   CATEGORY = 0,
@@ -38,7 +39,7 @@ const RentModal = () => {
   const [countryValidation, setCountryValidation] = useState<boolean>(false);
 
   const onCountryChange = (value: ICountryValue) => {
-    console.log("onCountryChange");
+    console.log(value?.latlong);
     setCountryValue(value);
     handleSetValue("country", value?.label || undefined);
   };
@@ -110,6 +111,8 @@ const RentModal = () => {
     console.log(data);
   };
 
+  console.log(errors);
+
   const handleSetValue = (id: keyof IRentInputProps, value: any) => {
     setValue(id, value, {
       shouldDirty: true,
@@ -131,13 +134,17 @@ const RentModal = () => {
         );
       case 1:
         return (
-          <CountrySelector
-            errors={errors}
-            countryValidation={countryValidation}
-            value={countryValue}
-            onChange={onCountryChange}
-          />
+          <>
+            <CountrySelector
+              errors={errors}
+              countryValidation={countryValidation}
+              value={countryValue}
+              onChange={onCountryChange}
+            />
+            <Location center={countryValue?.latlong} />
+          </>
         );
+
       default:
         return <></>;
     }

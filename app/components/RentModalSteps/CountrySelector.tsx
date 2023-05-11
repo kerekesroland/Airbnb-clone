@@ -29,7 +29,7 @@ const CountrySelector = ({
       />
 
       {countryValidation && <ErrorMessage error={errors.country?.message} />}
-      <Flex w="100%" mt="1rem">
+      <Flex w="100%" my="1rem">
         <Select
           placeholder="Anywhere"
           options={getCountries()}
