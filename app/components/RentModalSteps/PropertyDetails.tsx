@@ -1,9 +1,11 @@
 "use client";
 
-import React, { useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import PropertyDetailsHeader from "../PropertyDetailsHeader/PropertyDetailsHeader";
 import { Flex } from "@chakra-ui/react";
 import IncrementController from "../IncrementController/IncrementController";
+import { IRentInputProps } from "@/inferfaces/IRentInputProps";
+import { UseFormSetValue } from "react-hook-form";
 
 interface State {
   guests: number;
@@ -18,12 +20,6 @@ type Action =
   | { type: "DECREMENT_ROOMS" }
   | { type: "INCREMENT_BATHROOMS" }
   | { type: "DECREMENT_BATHROOMS" };
-
-const initialState: State = {
-  guests: 1,
-  rooms: 1,
-  bathrooms: 1,
-};
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -62,8 +58,46 @@ const reducer = (state: State, action: Action): State => {
   }
 };
 
-const PropertyDetails = () => {
+interface IProps {
+  setValue: UseFormSetValue<IRentInputProps>;
+  propertyRooms: number;
+  propertyGuests: number;
+  propertyBathrooms: number;
+}
+
+const PropertyDetails = ({
+  setValue,
+  propertyRooms,
+  propertyGuests,
+  propertyBathrooms,
+}: IProps) => {
+  const initialState: State = {
+    guests: propertyGuests,
+    rooms: propertyRooms,
+    bathrooms: propertyBathrooms,
+  };
   const [propertyStates, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    setValue("propertyDetails.guests", propertyStates.guests);
+    setValue("propertyDetails.rooms", propertyStates.rooms);
+    setValue("propertyDetails.bathrooms", propertyStates.bathrooms);
+  }, [
+    propertyStates.guests,
+    propertyStates.rooms,
+    propertyStates.bathrooms,
+    setValue,
+  ]);
+
+  const handleSetGuests = (value: number) => {
+    setValue("propertyDetails.guests", value);
+  };
+  const handleSetRooms = (value: number) => {
+    setValue("propertyDetails.rooms", value);
+  };
+  const handleSetBathrooms = (value: number) => {
+    setValue("propertyDetails.bathrooms", value);
+  };
 
   return (
     <>
@@ -75,23 +109,41 @@ const PropertyDetails = () => {
         <IncrementController
           title="Guests"
           subTitle="How many guests can you host?"
-          value={propertyStates.guests}
-          onIncrement={() => dispatch({ type: "INCREMENT_GUESTS" })}
-          onDecrement={() => dispatch({ type: "DECREMENT_GUESTS" })}
+          value={propertyGuests}
+          onIncrement={() => {
+            dispatch({ type: "INCREMENT_GUESTS" });
+            handleSetGuests(propertyStates.guests);
+          }}
+          onDecrement={() => {
+            dispatch({ type: "DECREMENT_GUESTS" });
+            handleSetGuests(propertyStates.guests);
+          }}
         />
         <IncrementController
           title="Rooms"
           subTitle="How many rooms does the property have?"
-          value={propertyStates.rooms}
-          onIncrement={() => dispatch({ type: "INCREMENT_ROOMS" })}
-          onDecrement={() => dispatch({ type: "DECREMENT_ROOMS" })}
+          value={propertyRooms}
+          onIncrement={() => {
+            dispatch({ type: "INCREMENT_ROOMS" });
+            handleSetRooms(propertyStates.rooms);
+          }}
+          onDecrement={() => {
+            dispatch({ type: "DECREMENT_ROOMS" });
+            handleSetRooms(propertyStates.rooms);
+          }}
         />
         <IncrementController
           title="Bathrooms"
           subTitle="How many bathrooms does the property have?"
-          value={propertyStates.bathrooms}
-          onIncrement={() => dispatch({ type: "INCREMENT_BATHROOMS" })}
-          onDecrement={() => dispatch({ type: "DECREMENT_BATHROOMS" })}
+          value={propertyBathrooms}
+          onIncrement={() => {
+            dispatch({ type: "INCREMENT_BATHROOMS" });
+            handleSetBathrooms(propertyStates.bathrooms);
+          }}
+          onDecrement={() => {
+            dispatch({ type: "DECREMENT_BATHROOMS" });
+            handleSetBathrooms(propertyStates.bathrooms);
+          }}
         />
       </Flex>
     </>
