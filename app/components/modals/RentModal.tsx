@@ -13,6 +13,9 @@ import { ICountryValue } from "@/inferfaces/ICountryValue";
 import { IRentInputProps } from "@/inferfaces/IRentInputProps";
 import Location from "../Location/Location";
 import PropertyDetails from "../RentModalSteps/PropertyDetails";
+import ImageSelector from "../ImageSelector/ImageSelector";
+import PropertyDescription from "../PropertyDescription/PropertyDescription";
+import PropertyPrice from "../PropertyPrice/PropertyPrice";
 
 enum steps {
   CATEGORY = 0,
@@ -32,7 +35,7 @@ const RentModal = () => {
   const { rentSchema } = useAuthSchemas();
   const { onClose, onOpen, isOpen } = useRentModal();
   const [loading, setLoading] = useState<boolean>(false);
-  const [step, setStep] = useState(steps.CATEGORY);
+  const [step, setStep] = useState(steps.PRICE);
   const [activeCategory, setActiveCategory] = useState<string>("");
   const [countryValue, setCountryValue] = useState<ICountryValue | undefined>(
     undefined
@@ -40,7 +43,6 @@ const RentModal = () => {
   const [countryValidation, setCountryValidation] = useState<boolean>(false);
 
   const onCountryChange = (value: ICountryValue) => {
-    console.log(value?.latlong);
     setCountryValue(value);
     handleSetValue("country", value?.label || undefined);
   };
@@ -56,6 +58,7 @@ const RentModal = () => {
   const primaryLabel = useMemo(() => {
     if (step === steps.PRICE) {
       return "Create";
+      2;
     }
     return "Next";
   }, [step]);
@@ -75,18 +78,49 @@ const RentModal = () => {
     trigger,
     setValue,
     getValues,
+    control,
     formState: { errors, touchedFields },
   } = useForm<IRentInputProps>({
     resolver: yupResolver(rentSchema),
     reValidateMode: "onChange",
     mode: "onChange",
+    defaultValues: {
+      propertyDetails: {
+        bathrooms: 1,
+        rooms: 1,
+        guests: 1,
+      },
+      propertyPrice: 0,
+    },
   });
 
-  // console.log(getValues());
+  console.log(getValues());
+
+  const propertyImage = watch("propertyImage");
+  const propertyGuests = watch("propertyDetails.guests");
+  const property = watch("propertyDetails");
+  const propertyRooms = watch("propertyDetails.rooms");
+  const propertyBathrooms = watch("propertyDetails.bathrooms");
+  const propertyTitle = watch("propertyTitle");
+  const propertyDescription = watch("propertyDescription");
+  const propertyPrice = watch("propertyPrice");
 
   const validateStep = async () => {
     const propertyTypeTrigger = () => [trigger?.("propertyType")];
     const countryTrigger = () => [trigger?.("country")];
+    const propertyDetailsTrigger = () => [
+      trigger?.("propertyDetails.guests"),
+      trigger?.("propertyDetails.rooms"),
+      trigger?.("propertyDetails.bathrooms"),
+    ];
+    const propertyImageTrigger = () => [trigger?.("propertyImage")];
+
+    const propertyDescriptionTrigger = () => [
+      trigger?.("propertyTitle"),
+      trigger?.("propertyDescription"),
+    ];
+
+    const priceTrigger = () => [trigger?.("propertyPrice")];
 
     switch (step) {
       case 0:
@@ -103,6 +137,43 @@ const RentModal = () => {
         }
         break;
 
+      case 2:
+        const propertyDetailsValidationTrigger = await Promise.all(
+          propertyDetailsTrigger()
+        );
+        if (propertyDetailsValidationTrigger.every((item) => item === true)) {
+          handleNextStep();
+        }
+        break;
+
+      case 3:
+        const propertyImageValidationTrigger = await Promise.all(
+          propertyImageTrigger()
+        );
+        if (propertyImageValidationTrigger.every((item) => item === true)) {
+          handleNextStep();
+        }
+        break;
+
+      case 4:
+        const propertyDescriptionValidationTrigger = await Promise.all(
+          propertyDescriptionTrigger()
+        );
+        if (
+          propertyDescriptionValidationTrigger.every((item) => item === true)
+        ) {
+          handleNextStep();
+        }
+        break;
+
+      case 5:
+        const priceValidationTrigger = await Promise.all(priceTrigger());
+
+        if (priceValidationTrigger.every((item) => item === true)) {
+          handleNextStep();
+        }
+        break;
+
       default:
         break;
     }
@@ -112,7 +183,7 @@ const RentModal = () => {
     console.log(data);
   };
 
-  console.log(errors);
+  // console.log(getValues());
 
   const handleSetValue = (id: keyof IRentInputProps, value: any) => {
     setValue(id, value, {
@@ -146,8 +217,44 @@ const RentModal = () => {
           </>
         );
       case 2:
-        return <PropertyDetails />;
+        return (
+          <PropertyDetails
+            propertyGuests={propertyGuests}
+            propertyRooms={propertyRooms}
+            propertyBathrooms={propertyBathrooms}
+            setValue={setValue}
+          />
+        );
 
+      case 3:
+        return (
+          <ImageSelector
+            errors={errors}
+            value={propertyImage}
+            onChange={(value) => handleSetValue("propertyImage", value)}
+          />
+        );
+
+      case 4:
+        return (
+          <PropertyDescription
+            propertyTitle={propertyTitle}
+            propertyDescription={propertyDescription}
+            register={register}
+            errors={errors}
+            key="propertyDescription"
+          />
+        );
+
+      case 5:
+        return (
+          <PropertyPrice
+            handleSetValue={handleSetValue}
+            register={register}
+            errors={errors}
+            value={propertyPrice}
+          />
+        );
       default:
         return <></>;
     }
@@ -158,7 +265,7 @@ const RentModal = () => {
   return (
     <PopupModal
       actionLabel={primaryLabel}
-      noOverflow={step === 1 && true}
+      noOverflow={step === 1 || (step === 0 && true)}
       body={modalBody}
       footer={<Box paddingBottom="40px" />}
       secondaryActionLabel={secondaryLabel}
