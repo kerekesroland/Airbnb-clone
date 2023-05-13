@@ -20,6 +20,11 @@ export const useAuthSchemas = () => {
     passwordNumberRequiredError: "Password must have a number included",
     propertyTypeRequiredError: "You must select a property type",
     countryRequiredError: "You must select a country",
+    propertyImageRequiredError: "You must upload an image for your property",
+    propertyTitleRequiredError: "You must have a title for your property",
+    propertyDescriptionRequiredError:
+      "You must have a description for your property",
+    propertyPriceRequiredError: "You must have a price for your property",
   };
 
   const registerSchema = yup.object({
@@ -108,7 +113,24 @@ export const useAuthSchemas = () => {
 
   const rentSchema = yup.object().shape({
     propertyType: yup.string().required(errors.propertyTypeRequiredError),
+    propertyDetails: yup.object().shape({
+      guests: yup.number().required("You must specify the number of guests"),
+      rooms: yup.number().required("You must specify the number of rooms"),
+      bathrooms: yup
+        .number()
+        .required("You must specify the number of bathrooms"),
+    }),
     country: yup.string().required(errors.countryRequiredError),
+    propertyImage: yup.string().required(errors.propertyImageRequiredError),
+
+    propertyTitle: yup.string().required(errors.propertyTitleRequiredError),
+    propertyDescription: yup
+      .string()
+      .required(errors.propertyDescriptionRequiredError),
+    propertyPrice: yup
+      .number()
+      .typeError("Property price must be a number")
+      .required(errors.propertyPriceRequiredError),
   });
 
   return {
