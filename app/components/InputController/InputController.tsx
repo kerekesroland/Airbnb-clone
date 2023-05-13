@@ -22,6 +22,7 @@ export function InputController({
   placeholder,
   labelWeight = "bold",
   value = "",
+  noMargin = false,
 }: IInputController) {
   const [isFocused, setIsFocused] = useState(false);
 
@@ -29,7 +30,7 @@ export function InputController({
     <FormControl
       className="form-controller"
       id={placeholder}
-      marginBottom={"2rem"}
+      marginBottom={noMargin ? "0rem" : "2rem"}
     >
       <Box position="relative" minHeight="40px">
         {label ? (
