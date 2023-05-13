@@ -8,10 +8,9 @@ interface IProps {
   register: UseFormRegister<IRentInputProps>;
   errors: FieldErrors<IRentInputProps>;
   value: number;
-  handleSetValue: (id: keyof IRentInputProps, value: any) => void;
 }
 
-const PropertyPrice = ({ register, errors, value, handleSetValue }: IProps) => {
+const PropertyPrice = ({ register, errors, value }: IProps) => {
   return (
     <>
       <GeneralHeader

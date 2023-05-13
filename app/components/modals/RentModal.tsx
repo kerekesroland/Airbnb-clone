@@ -5,7 +5,7 @@ import PopupModal from "./PopupModal";
 import useRentModal from "@/hooks/useRentModal";
 import { Box } from "@chakra-ui/react";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { useAuthSchemas } from "@/hooks/useAuthSchemas";
 import CategorySelector from "../RentModalSteps/CategorySelector";
 import CountrySelector from "../RentModalSteps/CountrySelector";
@@ -16,6 +16,9 @@ import PropertyDetails from "../RentModalSteps/PropertyDetails";
 import ImageSelector from "../ImageSelector/ImageSelector";
 import PropertyDescription from "../PropertyDescription/PropertyDescription";
 import PropertyPrice from "../PropertyPrice/PropertyPrice";
+import axios from "axios";
+import { toast } from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 enum steps {
   CATEGORY = 0,
@@ -35,12 +38,14 @@ const RentModal = () => {
   const { rentSchema } = useAuthSchemas();
   const { onClose, onOpen, isOpen } = useRentModal();
   const [loading, setLoading] = useState<boolean>(false);
-  const [step, setStep] = useState(steps.PRICE);
+  const [step, setStep] = useState(steps.CATEGORY);
   const [activeCategory, setActiveCategory] = useState<string>("");
   const [countryValue, setCountryValue] = useState<ICountryValue | undefined>(
     undefined
   );
   const [countryValidation, setCountryValidation] = useState<boolean>(false);
+
+  const router = useRouter();
 
   const onCountryChange = (value: ICountryValue) => {
     setCountryValue(value);
@@ -78,8 +83,7 @@ const RentModal = () => {
     trigger,
     setValue,
     getValues,
-    control,
-    formState: { errors, touchedFields },
+    formState: { errors },
   } = useForm<IRentInputProps>({
     resolver: yupResolver(rentSchema),
     reValidateMode: "onChange",
@@ -170,7 +174,7 @@ const RentModal = () => {
         const priceValidationTrigger = await Promise.all(priceTrigger());
 
         if (priceValidationTrigger.every((item) => item === true)) {
-          handleNextStep();
+          await handleSubmit?.(onSubmit as SubmitHandler<IRentInputProps>)();
         }
         break;
 
@@ -179,8 +183,22 @@ const RentModal = () => {
     }
   };
 
-  const onSubmit = (data: IRentInputProps) => {
-    console.log(data);
+  const onSubmit = async (data: IRentInputProps) => {
+    try {
+      setLoading(true);
+      await axios.post("/api/rentairbnb", {
+        data,
+      });
+      toast?.success("Successfully added your airbnb!");
+      router.refresh();
+      reset();
+      setStep(steps.CATEGORY);
+      onClose();
+    } catch (error) {
+      toast?.error("Something went wrong!");
+    } finally {
+      setLoading(false);
+    }
   };
 
   // console.log(getValues());
@@ -249,14 +267,13 @@ const RentModal = () => {
       case 5:
         return (
           <PropertyPrice
-            handleSetValue={handleSetValue}
             register={register}
             errors={errors}
             value={propertyPrice}
           />
         );
       default:
-        return <></>;
+        return null;
     }
   };
 
