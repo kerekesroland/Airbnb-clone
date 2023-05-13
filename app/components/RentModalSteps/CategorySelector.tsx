@@ -29,10 +29,18 @@ const CategorySelector = ({
       />
       <ErrorMessage error={errors.propertyType?.message} />
       <Flex
+        width="100%"
         flexWrap="wrap"
-        justifyContent="center"
+        justifyContent="space-between"
         alignItems="center"
         gap="1rem"
+        overflowY="scroll"
+        height="500px"
+        sx={{
+          "::-webkit-scrollbar": {
+            display: "none",
+          },
+        }}
       >
         {CATEGORIES?.map((category, index) => {
           return (
@@ -50,6 +58,9 @@ const CategorySelector = ({
                 duration: 0.5,
                 delay: 0.5 + index * 0.1,
                 ease: "easeOut",
+              }}
+              style={{
+                flex: "1 1 260px",
               }}
             >
               <CategoryPick
