@@ -18,6 +18,7 @@ export interface IInputController {
   mb?: number;
   labelWeight?: "normal" | "bold";
   value?: string;
+  noMargin?: boolean;
 }
 
 export interface IPasswordController {
