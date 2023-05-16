@@ -14,9 +14,7 @@ import CategoryItem from "../CategoryItem/CategoryItem";
 import styles from "./Categories.module.scss";
 import { CATEGORIES } from "@/constants/categories";
 
-type Props = {};
-
-const Categories = (props: Props) => {
+const Categories = () => {
   const path = usePathname();
   const mainPage = path === "/";
 
