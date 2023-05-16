@@ -1,6 +1,19 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+import { IListing } from "@/inferfaces/IListing";
+import ClientOnly from "./components/ClientOnly";
+import Listings from "./components/Listings/Listings";
+import NoListings from "./components/NoListings/NoListings";
+import { getAllListings } from "./queries/getAllListings";
 
-export default function Home() {
-  return <h1>Rolca</h1>;
+export default async function Home() {
+  const listings: IListing[] = await getAllListings();
+
+  if (listings.length === 0) {
+    return <NoListings />;
+  }
+
+  return (
+    <ClientOnly>
+      <Listings listings={listings} />
+    </ClientOnly>
+  );
 }
