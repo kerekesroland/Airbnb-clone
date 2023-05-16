@@ -16,15 +16,13 @@ export async function POST(req: Request, res: Response) {
   }
 
   const {
-    data: {
-      propertyType,
-      propertyDetails,
-      propertyImage,
-      country,
-      propertyTitle,
-      propertyDescription,
-      propertyPrice,
-    },
+    propertyType,
+    propertyDetails,
+    propertyImage,
+    country,
+    propertyTitle,
+    propertyDescription,
+    propertyPrice,
   } = await req.json();
 
   const airbnb = await prismaService.listing.create({
