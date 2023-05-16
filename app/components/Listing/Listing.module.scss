@@ -1,0 +1,14 @@
+.image_container {
+  cursor: pointer;
+  overflow: hidden;
+  border-radius: 12px;
+}
+
+.image {
+  transition: transform 0.5s ease-out;
+}
+
+.image_container:hover .image,
+.image_container:focus .image {
+  transform: scale(1.2);
+}
