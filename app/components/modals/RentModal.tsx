@@ -98,7 +98,7 @@ const RentModal = () => {
     },
   });
 
-  console.log(getValues());
+  // console.log(getValues());
 
   const propertyImage = watch("propertyImage");
   const propertyGuests = watch("propertyDetails.guests");
@@ -187,7 +187,10 @@ const RentModal = () => {
     try {
       setLoading(true);
       await axios.post("/api/rentairbnb", {
-        data,
+        ...data,
+        country: countryValue?.region
+          ?.concat(", ")
+          .concat(countryValue?.label as string),
       });
       toast?.success("Successfully added your airbnb!");
       router.refresh();
