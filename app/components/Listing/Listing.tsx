@@ -1,7 +1,7 @@
 import { IListing } from "@/inferfaces/IListing";
 import { Box, Flex, Text } from "@chakra-ui/react";
 import Image from "next/image";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useCallback, useMemo } from "react";
 import { HeartIcon } from "../Icons/Icons";
 import { AiFillStar } from "react-icons/ai";
 import { IUser } from "@/app/models";
@@ -9,6 +9,7 @@ import { Reservation } from "@prisma/client";
 import useCountries from "@/hooks/useCountries";
 import styles from "./Listing.module.scss";
 import CustomButton from "../Button/Button";
+import useFavorites from "@/hooks/useFavorites";
 
 interface IProps {
   listing: IListing;
@@ -29,17 +30,16 @@ const Listing = ({
   actionLabel,
   reservation,
 }: IProps) => {
-  const [isFavorite, setIsFavorite] = useState<boolean>(false);
+  const { hasFavorites, toggleFavorite } = useFavorites({
+    user: user as IUser,
+    id: listing?.id,
+  });
 
   // const { getCountry } = useCountries();
 
   // const location = getCountry(listing?.locationValue);
 
   // console.log(location);
-
-  const handleSetFavorite = useCallback(() => {
-    setIsFavorite((prev) => !prev);
-  }, []);
 
   const handleCancel = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -59,6 +59,9 @@ const Listing = ({
     }
     return listing?.price;
   }, [reservation, listing]);
+
+  const handleAddToFavorites = async (e: React.MouseEvent<HTMLDivElement>) =>
+    await toggleFavorite(e);
 
   return (
     <Flex flexDirection="column" height="357px" w="281px">
@@ -80,7 +83,7 @@ const Listing = ({
           alt={listing?.title}
         />
         <Box
-          onClick={handleSetFavorite}
+          onClick={handleAddToFavorites}
           transition="color 0.5s ease-out"
           cursor="pointer"
           zIndex="1"
@@ -89,7 +92,7 @@ const Listing = ({
           top="1rem"
           right="1rem"
         >
-          <HeartIcon currentColor={isFavorite ? "tomato" : ""} />
+          <HeartIcon currentColor={hasFavorites ? "tomato" : ""} />
         </Box>
       </Flex>
       <Flex mt="10px" alignItems="center" justifyContent="space-between">
@@ -131,7 +134,7 @@ const Listing = ({
             mt="12px"
             maxWidth="100%"
           >
-            ${listing?.price}
+            ${price}
           </Text>
           {!reservation && (
             <Text

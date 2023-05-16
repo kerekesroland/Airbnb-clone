@@ -4,18 +4,19 @@ import React from "react";
 import Listing from "../Listing/Listing";
 import { IListing } from "@/inferfaces/IListing";
 import styles from "./Listings.module.scss";
+import getCurrentUser from "@/app/utils/getCurrentUser";
+import { IUser } from "@/app/models";
 
 interface IProps {
   listings: IListing[];
+  user: IUser | null;
 }
 
-//todo add responsiveness
-
-const Listings = ({ listings }: IProps) => {
+const Listings = ({ listings, user }: IProps) => {
   return (
     <Box className={styles.container}>
       {listings.map((listing) => (
-        <Listing key={listing.id} listing={listing} />
+        <Listing user={user} key={listing.id} listing={listing} />
       ))}
     </Box>
   );
