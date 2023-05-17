@@ -184,6 +184,7 @@ const RentModal = () => {
   };
 
   const onSubmit = async (data: IRentInputProps) => {
+    const coordinates = countryValue?.latlong?.map((el) => String(el));
     try {
       setLoading(true);
       await axios.post("/api/rentairbnb", {
@@ -191,6 +192,7 @@ const RentModal = () => {
         country: countryValue?.region
           ?.concat(", ")
           .concat(countryValue?.label as string),
+        coordinates: coordinates,
       });
       toast?.success("Successfully added your airbnb!");
       router.refresh();
