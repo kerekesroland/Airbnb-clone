@@ -28,9 +28,10 @@ leaf.Icon.mergeOptions({
 
 interface IProps {
   center?: Array<number> | null;
+  mapHeight?: number;
 }
 
-const Location = ({ center }: IProps) => {
+const Location = ({ center, mapHeight }: IProps) => {
   return (
     <MapContainer
       center={(center as LatLngExpression) || [19, 23]}
@@ -38,7 +39,7 @@ const Location = ({ center }: IProps) => {
       scrollWheelZoom={false}
       touchZoom={false}
       style={{
-        height: "300px",
+        height: mapHeight ? mapHeight : "300px",
         borderRadius: "15px",
       }}
     >
