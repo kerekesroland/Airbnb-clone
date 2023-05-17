@@ -15,8 +15,12 @@ const formattedCountries = () => {
 const useCountries = () => {
   const getCountries = () => formattedCountries();
 
-  const getCountry = (value: string) =>
-    formattedCountries().find((country) => country.value === value);
+  const getCountry = (value: Array<string>) =>
+    formattedCountries().find(
+      (country) =>
+        country.latlong[0].toString() === value[0] &&
+        country.latlong[1].toString() === value[1]
+    );
 
   return {
     getCountries,
