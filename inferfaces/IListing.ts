@@ -12,4 +12,5 @@ export interface IListing {
   locationValue: string;
   createdAt: string;
   updatedAt: string;
+  coordinates: Array<string>;
 }
