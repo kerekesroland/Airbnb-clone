@@ -1,10 +1,9 @@
 "use client";
-import { Grid, Box } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import React from "react";
 import Listing from "../Listing/Listing";
 import { IListing } from "@/inferfaces/IListing";
 import styles from "./Listings.module.scss";
-import getCurrentUser from "@/app/utils/getCurrentUser";
 import { IUser } from "@/app/models";
 
 interface IProps {
