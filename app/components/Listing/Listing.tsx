@@ -10,6 +10,7 @@ import useCountries from "@/hooks/useCountries";
 import styles from "./Listing.module.scss";
 import CustomButton from "../Button/Button";
 import useFavorites from "@/hooks/useFavorites";
+import { useRouter } from "next/navigation";
 
 interface IProps {
   listing: IListing;
@@ -34,12 +35,11 @@ const Listing = ({
     user: user as IUser,
     id: listing?.id,
   });
+  const router = useRouter();
 
-  // const { getCountry } = useCountries();
+  const { getCountry } = useCountries();
 
-  // const location = getCountry(listing?.locationValue);
-
-  // console.log(location);
+  const location = getCountry(listing.coordinates);
 
   const handleCancel = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -64,7 +64,12 @@ const Listing = ({
     await toggleFavorite(e);
 
   return (
-    <Flex flexDirection="column" height="357px" w="281px">
+    <Flex
+      onClick={() => router.push(`listings/${listing?.id}`)}
+      flexDirection="column"
+      height="357px"
+      w="281px"
+    >
       <Flex
         className={styles.image_container}
         position="relative"
