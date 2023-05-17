@@ -23,6 +23,7 @@ export async function POST(req: Request, res: Response) {
     propertyTitle,
     propertyDescription,
     propertyPrice,
+    coordinates,
   } = await req.json();
 
   const airbnb = await prismaService.listing.create({
@@ -37,6 +38,7 @@ export async function POST(req: Request, res: Response) {
       numberOfRooms: propertyDetails.rooms,
       userId: user.id,
       locationValue: country,
+      coordinates: coordinates,
     },
   });
 
