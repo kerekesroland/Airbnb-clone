@@ -1,0 +1,12 @@
+.dateSelect {
+  height: fit-content;
+  flex-direction: column;
+  outline: 1px solid #eee;
+  padding: 1rem;
+  border-radius: 10px;
+  width: 50%;
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+  }
+}

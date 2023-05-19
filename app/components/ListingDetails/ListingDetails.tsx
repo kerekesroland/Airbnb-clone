@@ -8,8 +8,8 @@ import ListingHeader from "./ListingHeader";
 import { Flex } from "@chakra-ui/react";
 import ListingBasicInfo from "./ListingBasicInfo";
 import { ICategory } from "@/inferfaces/ICategory";
-import useCountries from "@/hooks/useCountries";
 import ListingHost from "./ListingHost";
+import styles from "./ListingDetails.module.scss";
 
 interface IProps {
   listing: IListing & {
@@ -25,14 +25,14 @@ const ListingDetails = ({ listing, user }: IProps) => {
   ) as ICategory;
 
   return (
-    <Flex flexDirection="column" width="100%" mx="auto" padding="2rem 4rem">
+    <Flex className={styles.listingDetailsContainer}>
       <ListingHeader
         image={listing?.image}
         id={listing?.id}
         location={listing?.coordinates}
         title={listing?.title}
       />
-      <Flex gap="2rem" justifyContent="space-between">
+      <Flex className={styles.listingDetailsInfo}>
         <ListingBasicInfo
           user={user}
           category={category}

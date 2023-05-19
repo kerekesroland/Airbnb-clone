@@ -13,6 +13,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { toast } from "react-hot-toast";
 import DatePicker from "../DatePicker/DatePicker";
 import { Range } from "react-date-range";
+import styles from "./ListingHost.module.scss";
 
 const initDates = {
   startDate: new Date(),
@@ -94,34 +95,38 @@ const ListingHost = ({ user, listing, reservations = [] }: IProps) => {
         rangeOfDate.endDate
       );
       if (days && listing?.price) {
-        setTotal(days * listing?.price);
+        setTotal(Math.abs(days * listing?.price));
+      } else {
+        setTotal(listing?.price);
       }
-      setTotal(listing?.price);
     }
   }, [listing?.price, rangeOfDate]);
 
   return (
-    <Flex
-      height="fit-content"
-      flexDirection="column"
-      outline="1px solid #eee"
-      padding="1rem"
-      borderRadius="10px"
-      width="50%"
-    >
-      <Flex gap="0.5rem" alignItems="center">
+    <Flex className={styles.dateSelect}>
+      <Flex mb="16px" gap="0.5rem" alignItems="center">
         <Text fontSize="20px" fontWeight={700}>
-          $ {total}
+          $ {listing?.price}
         </Text>
         <Text color="#1a202c" opacity={0.6} fontWeight="600" fontSize="14px">
           night
         </Text>
       </Flex>
+      <hr color="#B3B3B3" style={{ opacity: "0.5" }} />
       <DatePicker
         range={rangeOfDate}
         onChange={changeDate}
         invalidDates={invalidDates}
       />
+      <hr color="#B3B3B3" style={{ opacity: "0.5" }} />
+      <Flex mt="16px" alignItems="center" justifyContent="space-between">
+        <Text fontSize="20px" fontWeight={700}>
+          Total
+        </Text>
+        <Text fontSize="20px" fontWeight={700}>
+          $ {total}
+        </Text>
+      </Flex>
     </Flex>
   );
 };

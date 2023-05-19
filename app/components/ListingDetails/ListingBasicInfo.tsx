@@ -7,6 +7,7 @@ import { Avatar, Flex, Text } from "@chakra-ui/react";
 import React from "react";
 import { IconType } from "react-icons";
 import Location from "../Location/Location";
+import styles from "./ListingBasicInfo.module.scss";
 
 interface IProps {
   user: IUser;
@@ -47,7 +48,7 @@ const ListingBasicInfo = ({
   const coordinates = getCountry(location);
 
   return (
-    <Flex width="50%" flexDirection="column">
+    <Flex className={styles.listingBasicInfoContainer}>
       <ListingInfo
         user={user}
         rooms={rooms}
