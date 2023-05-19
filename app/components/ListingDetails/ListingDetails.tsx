@@ -9,6 +9,7 @@ import { Flex } from "@chakra-ui/react";
 import ListingBasicInfo from "./ListingBasicInfo";
 import { ICategory } from "@/inferfaces/ICategory";
 import useCountries from "@/hooks/useCountries";
+import ListingHost from "./ListingHost";
 
 interface IProps {
   listing: IListing & {
@@ -29,17 +30,20 @@ const ListingDetails = ({ listing, user }: IProps) => {
         image={listing?.image}
         id={listing?.id}
         location={listing?.coordinates}
-        title="Header"
+        title={listing?.title}
       />
-      <ListingBasicInfo
-        user={user}
-        category={category}
-        description={listing?.description}
-        rooms={listing?.numberOfRooms}
-        bathrooms={listing?.numberOfBathrooms}
-        guests={listing?.numberOfGuests}
-        location={listing?.coordinates}
-      />
+      <Flex gap="2rem" justifyContent="space-between">
+        <ListingBasicInfo
+          user={user}
+          category={category}
+          description={listing?.description}
+          rooms={listing?.numberOfRooms}
+          bathrooms={listing?.numberOfBathrooms}
+          guests={listing?.numberOfGuests}
+          location={listing?.coordinates}
+        />
+        <ListingHost listing={listing} user={user} />
+      </Flex>
     </Flex>
   );
 };

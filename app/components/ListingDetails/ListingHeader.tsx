@@ -26,14 +26,15 @@ const ListingHeader = ({ title, location, image, id, user }: IProps) => {
         subTitle={`${coordinates?.label} , ${coordinates?.region}`}
       />
       <Flex
-        mx="auto"
         mt="1rem"
-        height="60vh"
+        minHeight="60vh"
         overflow="hidden"
         width="100%"
         position="relative"
         borderRadius="10px"
-        maxW="1000px"
+        style={{
+          aspectRatio: "16/9",
+        }}
       >
         <Image
           src={image}

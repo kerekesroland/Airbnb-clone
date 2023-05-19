@@ -47,7 +47,7 @@ const ListingBasicInfo = ({
   const coordinates = getCountry(location);
 
   return (
-    <Flex flexDirection="column">
+    <Flex width="50%" flexDirection="column">
       <ListingInfo
         user={user}
         rooms={rooms}
