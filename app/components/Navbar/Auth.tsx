@@ -16,6 +16,7 @@ import { toast } from "react-hot-toast";
 import { IUser } from "@/app/models";
 import Image from "next/image";
 import useRentModal, { IRentModalStore } from "@/hooks/useRentModal";
+import { useRouter } from "next/navigation";
 
 interface IProps {
   user: IUser | null;
@@ -30,6 +31,8 @@ const Auth = ({ user }: IProps) => {
   const { onOpen }: IRegisterModalStore = useRegisterModal();
   const { onOpen: openLoginModal }: ILoginModalStore = useLoginModal();
   const { onOpen: openRentModal }: IRentModalStore = useRentModal();
+
+  const router = useRouter();
 
   const handleOpenRegisterModal = () => {
     toggleUserMenu();
@@ -158,7 +161,10 @@ const Auth = ({ user }: IProps) => {
             >
               {user ? (
                 <>
-                  <MenuItem label="My trips" onClick={() => {}} />
+                  <MenuItem
+                    label="My trips"
+                    onClick={() => router.push("/trips")}
+                  />
                   <MenuItem label="My reservations" onClick={() => {}} />
                   <MenuItem label="My favorites" onClick={() => {}} />
                   <MenuItem label="My properties" onClick={() => {}} />
