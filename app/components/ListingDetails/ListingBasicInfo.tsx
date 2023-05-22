@@ -4,10 +4,10 @@ import { IUser } from "@/app/models";
 import useCountries from "@/hooks/useCountries";
 import { ICategory } from "@/inferfaces/ICategory";
 import { Avatar, Flex, Text } from "@chakra-ui/react";
-import React from "react";
+import React, { useMemo } from "react";
 import { IconType } from "react-icons";
-import Location from "../Location/Location";
 import styles from "./ListingBasicInfo.module.scss";
+import dynamic from "next/dynamic";
 
 interface IProps {
   user: IUser;
@@ -46,6 +46,14 @@ const ListingBasicInfo = ({
 }: IProps) => {
   const { getCountry } = useCountries();
   const coordinates = getCountry(location);
+
+  const Location = useMemo(
+    () =>
+      dynamic(() => import("../Location/Location"), {
+        ssr: false,
+      }),
+    []
+  );
 
   return (
     <Flex className={styles.listingBasicInfoContainer}>
@@ -95,7 +103,7 @@ const ListingInfo = ({ user, rooms, guests, bathrooms }: IInfoProps) => {
             opacity={0.6}
             fontWeight="600"
             fontSize="14px"
-            key={el.value}
+            key={el.label}
           >
             {el.value} {el.label}
           </Text>

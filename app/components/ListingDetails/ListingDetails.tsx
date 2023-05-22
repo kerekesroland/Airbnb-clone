@@ -1,6 +1,6 @@
 "use client";
 
-import { IListing, IUser } from "@/app/models";
+import { IListing, IReservation, IUser } from "@/app/models";
 import { CATEGORIES } from "@/constants/categories";
 import { Reservation } from "@prisma/client";
 import React from "react";
@@ -15,11 +15,11 @@ interface IProps {
   listing: IListing & {
     user: IUser;
   };
-  reservations?: Array<Reservation>;
+  reservations?: Array<IReservation>;
   user: IUser;
 }
 
-const ListingDetails = ({ listing, user }: IProps) => {
+const ListingDetails = ({ listing, user, reservations }: IProps) => {
   const category = CATEGORIES.find(
     (cat) => cat.label === listing?.category
   ) as ICategory;
@@ -42,7 +42,11 @@ const ListingDetails = ({ listing, user }: IProps) => {
           guests={listing?.numberOfGuests}
           location={listing?.coordinates}
         />
-        <ListingHost listing={listing} user={user} />
+        <ListingHost
+          reservations={reservations}
+          listing={listing}
+          user={user}
+        />
       </Flex>
     </Flex>
   );

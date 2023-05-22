@@ -1,10 +1,10 @@
 "use client";
 
-import { IListing, IUser } from "@/app/models";
+import { IListing, IReservation, IUser } from "@/app/models";
 import { CATEGORIES } from "@/constants/categories";
 import useLoginModal from "@/hooks/useLoginModal";
 import { ICategory } from "@/inferfaces/ICategory";
-import { Flex, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { Reservation } from "@prisma/client";
 import axios from "axios";
 import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
@@ -14,6 +14,7 @@ import { toast } from "react-hot-toast";
 import DatePicker from "../DatePicker/DatePicker";
 import { Range } from "react-date-range";
 import styles from "./ListingHost.module.scss";
+import CustomButton from "../Button/Button";
 
 const initDates = {
   startDate: new Date(),
@@ -22,7 +23,7 @@ const initDates = {
 };
 
 interface IProps {
-  reservations?: Reservation[];
+  reservations?: IReservation[];
   listing: IListing & {
     user: IUser;
   };
@@ -44,6 +45,7 @@ const ListingHost = ({ user, listing, reservations = [] }: IProps) => {
     let dates: Date[] = [];
 
     reservations.forEach((reservation: any) => {
+      console.log({ reservation });
       const range = eachDayOfInterval({
         start: new Date(reservation.startDate),
         end: new Date(reservation.endDate),
@@ -54,6 +56,8 @@ const ListingHost = ({ user, listing, reservations = [] }: IProps) => {
 
     return dates;
   }, [reservations]);
+
+  console.log(invalidDates);
 
   const makeReservation = useCallback(async () => {
     if (!user) {
@@ -119,13 +123,21 @@ const ListingHost = ({ user, listing, reservations = [] }: IProps) => {
         invalidDates={invalidDates}
       />
       <hr color="#B3B3B3" style={{ opacity: "0.5" }} />
-      <Flex mt="16px" alignItems="center" justifyContent="space-between">
-        <Text fontSize="20px" fontWeight={700}>
-          Total
-        </Text>
-        <Text fontSize="20px" fontWeight={700}>
-          $ {total}
-        </Text>
+      <Flex mt="16px" flexDirection="column">
+        <Flex mb="16px" alignItems="center" justifyContent="space-between">
+          <Text fontSize="20px" fontWeight={700}>
+            Total
+          </Text>
+          <Text fontSize="20px" fontWeight={700}>
+            $ {total}
+          </Text>
+        </Flex>
+
+        <CustomButton
+          label="Make Reservation"
+          onClick={makeReservation}
+          disabled={loading}
+        />
       </Flex>
     </Flex>
   );
