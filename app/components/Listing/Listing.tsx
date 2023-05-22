@@ -4,17 +4,17 @@ import Image from "next/image";
 import React, { useCallback, useMemo } from "react";
 import { HeartIcon } from "../Icons/Icons";
 import { AiFillStar } from "react-icons/ai";
-import { IUser } from "@/app/models";
-import { Reservation } from "@prisma/client";
+import { IReservation, IUser } from "@/app/models";
 import useCountries from "@/hooks/useCountries";
 import styles from "./Listing.module.scss";
 import CustomButton from "../Button/Button";
 import useFavorites from "@/hooks/useFavorites";
 import { useRouter } from "next/navigation";
+import { format } from "date-fns";
 
 interface IProps {
   listing: IListing;
-  reservation: Reservation;
+  reservation: IReservation;
   disabled: boolean;
   user: IUser | null;
   onAction?: (id: string) => void;
@@ -39,7 +39,7 @@ const Listing = ({
 
   const { getCountry } = useCountries();
 
-  const location = getCountry(listing.coordinates);
+  const location = getCountry(listing?.coordinates);
 
   const handleCancel = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -59,6 +59,17 @@ const Listing = ({
     }
     return listing?.price;
   }, [reservation, listing]);
+
+  const reservationDate = useMemo(() => {
+    if (!reservation) {
+      return null;
+    }
+
+    const startDate = new Date(reservation.startDate);
+    const endDate = new Date(reservation.endDate);
+
+    return `${format(startDate, "PP")} - ${format(endDate, "PP")}`;
+  }, [reservation]);
 
   const handleAddToFavorites = async (e: React.MouseEvent<HTMLDivElement>) =>
     await toggleFavorite(e);
@@ -128,9 +139,9 @@ const Listing = ({
           color="#767676"
           maxWidth="100%"
         >
-          May 31 - Jun 6
+          {reservationDate || "May 31 - Jun 6"}
         </Text>
-        <Flex alignItems="center" gap="1">
+        <Flex alignItems="center" gap="1" mb="1rem">
           <Text
             fontSize="15px"
             lineHeight="1.3"
@@ -152,16 +163,15 @@ const Listing = ({
               night
             </Text>
           )}
-
-          {onAction && actionLabel && (
-            <CustomButton
-              disabled={disabled}
-              small
-              label={actionLabel}
-              onClick={handleCancel}
-            />
-          )}
         </Flex>
+        {onAction && actionLabel && (
+          <CustomButton
+            disabled={disabled}
+            small
+            label={actionLabel}
+            onClick={handleCancel}
+          />
+        )}
       </Flex>
     </Flex>
   );
