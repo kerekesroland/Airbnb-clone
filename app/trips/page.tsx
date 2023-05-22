@@ -17,11 +17,7 @@ const Trips = async () => {
   if (!reservations) {
     <NoInfo title="No trips yet" subtitle="Try making some!" />;
   }
-  return (
-    <ClientOnly>
-      <MyTrips user={user} reservations={reservations} />
-    </ClientOnly>
-  );
+  return <MyTrips user={user} reservations={reservations} />;
 };
 
 export default Trips;
