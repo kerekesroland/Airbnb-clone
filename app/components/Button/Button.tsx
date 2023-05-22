@@ -56,7 +56,7 @@ const CustomButton = ({
       color={outline ? "#000" : "#fff"}
       padding={small ? "0.25rem" : "0.75rem"}
       fontSize={small ? "14px" : "18px"}
-      fontWeight={small ? "light" : "600"}
+      fontWeight={small ? "medium" : "600"}
       borderWidth={small ? "1px" : "2px"}
     >
       {Icon && <Icon size={24} className={styles.button_icon} />}
