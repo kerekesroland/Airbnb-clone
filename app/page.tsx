@@ -9,6 +9,7 @@ import { IUser } from "./models";
 export default async function Home() {
   const listings: IListing[] = await getAllListings();
   const user: IUser | null = await getCurrentUser();
+
   if (listings.length === 0) {
     return <NoListings />;
   }
