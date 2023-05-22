@@ -4,8 +4,7 @@ import { IListing, IReservation, IUser } from "@/app/models";
 import { CATEGORIES } from "@/constants/categories";
 import useLoginModal from "@/hooks/useLoginModal";
 import { ICategory } from "@/inferfaces/ICategory";
-import { Box, Flex, Text } from "@chakra-ui/react";
-import { Reservation } from "@prisma/client";
+import { Flex, Text } from "@chakra-ui/react";
 import axios from "axios";
 import { differenceInCalendarDays, eachDayOfInterval } from "date-fns";
 import { useRouter } from "next/navigation";
@@ -74,7 +73,7 @@ const ListingHost = ({ user, listing, reservations = [] }: IProps) => {
       });
       toast.success("Successfully made a reservation!");
       setRangeOfDate(initDates);
-      router.refresh();
+      router.push("/trips");
     } catch (error) {
       toast.error("Error while making a reservation!");
     } finally {

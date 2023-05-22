@@ -20,10 +20,12 @@ export async function DELETE(
 
   const { id } = params;
 
+  //To be able to delete reservation from both ways
   try {
-    await prismaService.reservation.delete({
+    await prismaService.reservation.deleteMany({
       where: {
         id: id,
+        OR: [{ userId: user?.id }, { listing: { userId: user?.id } }],
       },
     });
     return NextResponse.json({
