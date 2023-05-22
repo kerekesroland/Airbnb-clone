@@ -1,20 +1,21 @@
 "use client";
 
-import { IReservation, IUser } from "@/app/models";
-import { Box, Flex } from "@chakra-ui/react";
+import { Flex, Box } from "@chakra-ui/react";
 import GeneralHeader from "../GeneralHeader/GeneralHeader";
-import styles from "./MyTrips.module.scss";
-import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
-import axios from "axios";
-import { toast } from "react-hot-toast";
 import Listing from "../Listing/Listing";
+import styles from "./MyReservations.module.scss";
+import { IReservation, IUser } from "@/app/models";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useState, useCallback } from "react";
+import toast from "react-hot-toast";
+
 interface IProps {
+  user: IUser;
   reservations: Array<IReservation>;
-  user: IUser | null;
 }
 
-const MyTrips = ({ user, reservations }: IProps) => {
+const MyReservations = ({ user, reservations }: IProps) => {
   const router = useRouter();
   const [deleteId, setDeleteId] = useState<string>("");
 
@@ -33,14 +34,13 @@ const MyTrips = ({ user, reservations }: IProps) => {
     },
     [router]
   );
-
   return (
     <Flex className={styles.main__container}>
       <GeneralHeader
-        title="Trips"
+        title="Reservations"
         subTitle="What places have you visited and where are you headed?"
       />
-      <Box className={styles.trips__container}>
+      <Box className={styles.reservations__container}>
         {reservations.map((reservation) => (
           <Listing
             key={reservation?.id}
@@ -58,4 +58,4 @@ const MyTrips = ({ user, reservations }: IProps) => {
   );
 };
 
-export default MyTrips;
+export default MyReservations;
