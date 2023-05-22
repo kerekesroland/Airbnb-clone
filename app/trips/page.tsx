@@ -7,17 +7,19 @@ import MyTrips from "../components/MyTrips/MyTrips";
 
 const Trips = async () => {
   const user = await getCurrentUser();
-  const reservations = await getReservations({ userId: user?.id });
 
   if (!user) {
     return <NoInfo title="You are not authorized" subtitle="Please log in!" />;
   }
+
+  const reservations = await getReservations({ userId: user?.id });
+
   if (!reservations) {
     <NoInfo title="No trips yet" subtitle="Try making some!" />;
   }
   return (
     <ClientOnly>
-      <MyTrips />
+      <MyTrips user={user} reservations={reservations} />
     </ClientOnly>
   );
 };
