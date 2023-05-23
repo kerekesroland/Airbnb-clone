@@ -14,8 +14,8 @@ import { format } from "date-fns";
 
 interface IProps {
   listing: IListing;
-  reservation: IReservation;
-  disabled: boolean;
+  reservation?: IReservation;
+  disabled?: boolean;
   user: IUser | null;
   onAction?: (id: string) => void;
   actionId?: string;

@@ -169,7 +169,10 @@ const Auth = ({ user }: IProps) => {
                     label="My reservations"
                     onClick={() => router.push("/reservations")}
                   />
-                  <MenuItem label="My favorites" onClick={() => {}} />
+                  <MenuItem
+                    label="My favorites"
+                    onClick={() => router.push("/favorites")}
+                  />
                   <MenuItem label="My properties" onClick={() => {}} />
                   <MenuItem label="Airbnb my home" onClick={openRentModal} />
                   <MenuItem label="Logout" onClick={handleLogout} />
