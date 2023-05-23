@@ -22,9 +22,13 @@ const useCountries = () => {
         country.latlong[1].toString() === value[1]
     );
 
+  const getCountryByName = (value: string) =>
+    formattedCountries().find((country) => country.label === value);
+
   return {
     getCountries,
     getCountry,
+    getCountryByName,
   };
 };
 
