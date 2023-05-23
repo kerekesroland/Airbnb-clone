@@ -39,7 +39,7 @@ export default async function RootLayout({
           <Navbar user={user} />
         </ClientOnly>
         <Providers>{children}</Providers>
-        <Footer />
+        {/* <Footer /> */}
       </body>
     </html>
   );
