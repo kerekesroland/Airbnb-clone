@@ -17,9 +17,10 @@ export const config = {
 export function middleware(req: NextRequest) {
   // get the authentication cookie
   const authCookie = req.cookies.get("next-auth.session-token");
+  const secureCookie = req.cookies.get("__Secure-next-auth.session-token");
   const url = req.nextUrl.clone();
 
-  if (!authCookie && !["/"].includes(req.nextUrl.pathname)) {
+  if (!authCookie && !secureCookie && !["/"].includes(req.nextUrl.pathname)) {
     url.pathname = "/";
     return NextResponse.redirect(url);
   }
