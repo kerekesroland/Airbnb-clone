@@ -143,7 +143,7 @@ const Listing = ({
             color="#767676"
             maxWidth="100%"
           >
-            {reservationDate || "May 31 - Jun 6"}
+            {reservationDate || null}
           </Text>
           <Flex alignItems="center" gap="1" mb="1rem">
             <Text
