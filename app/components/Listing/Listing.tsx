@@ -11,6 +11,7 @@ import CustomButton from "../Button/Button";
 import useFavorites from "@/hooks/useFavorites";
 import { useRouter } from "next/navigation";
 import { format } from "date-fns";
+import { toast } from "react-hot-toast";
 
 interface IProps {
   listing: IListing;
@@ -72,10 +73,17 @@ const Listing = ({
   const handleAddToFavorites = async (e: React.MouseEvent<HTMLDivElement>) =>
     await toggleFavorite(e);
 
+  const handleNavigateToListing = () => {
+    if (!user) {
+      toast?.error("You need to be logged in to view listing!");
+    }
+    router.push(`listings/${listing?.id}`);
+  };
+
   return (
     <Skeleton isLoaded={listing?.id ? true : false}>
       <Flex
-        onClick={() => router.push(`listings/${listing?.id}`)}
+        onClick={handleNavigateToListing}
         flexDirection="column"
         height="357px"
         w="281px"
