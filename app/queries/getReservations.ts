@@ -8,22 +8,24 @@ interface IParams {
 
 export const getReservations = async (params: IParams) => {
   try {
-    const searchParams = {};
+    const { id, userId, authorId } = params;
 
-    if (params.id) {
-      Object.assign(searchParams, { listingId: params.id });
+    const query: any = {};
+
+    if (id) {
+      query.listingId = id;
     }
 
-    if (params.userId) {
-      Object.assign(searchParams, { userId: params.userId });
+    if (userId) {
+      query.userId = userId;
     }
 
-    if (params.authorId) {
-      Object.assign(searchParams, { userId: params.authorId });
+    if (authorId) {
+      query.listing = { userId: authorId };
     }
 
     const res = await prismaService.reservation.findMany({
-      where: searchParams,
+      where: query,
       include: {
         listing: true,
       },

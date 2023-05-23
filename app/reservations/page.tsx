@@ -15,6 +15,15 @@ const Reservations = async () => {
 
   const reservations = await getReservations({ authorId: user.id });
 
+  if (reservations.length === 0) {
+    return (
+      <NoInfo
+        title="No reservations yet"
+        subtitle="As of now you don't have any reservations made!"
+      />
+    );
+  }
+
   return <MyReservations user={user} reservations={reservations} />;
 };
 

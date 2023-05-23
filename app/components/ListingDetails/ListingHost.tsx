@@ -44,7 +44,6 @@ const ListingHost = ({ user, listing, reservations = [] }: IProps) => {
     let dates: Date[] = [];
 
     reservations.forEach((reservation: any) => {
-      console.log({ reservation });
       const range = eachDayOfInterval({
         start: new Date(reservation.startDate),
         end: new Date(reservation.endDate),
@@ -55,8 +54,6 @@ const ListingHost = ({ user, listing, reservations = [] }: IProps) => {
 
     return dates;
   }, [reservations]);
-
-  console.log(invalidDates);
 
   const makeReservation = useCallback(async () => {
     if (!user) {

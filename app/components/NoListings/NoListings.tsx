@@ -2,8 +2,10 @@
 
 import { Flex, Text } from "@chakra-ui/react";
 import Button from "../Button/Button";
+import { useRouter } from "next/navigation";
 
 const NoListings = () => {
+  const router = useRouter();
   return (
     <Flex
       marginTop="6rem"
@@ -22,7 +24,11 @@ const NoListings = () => {
       </Flex>
 
       <Flex width="300px">
-        <Button onClick={() => {}} outline label="Reset filters" />
+        <Button
+          onClick={() => router.replace("/")}
+          outline
+          label="Reset filters"
+        />
       </Flex>
     </Flex>
   );

@@ -1,0 +1,35 @@
+.main__container {
+  padding: 1rem 2rem;
+  flex-direction: column;
+
+  .properties__container {
+    margin: 2.5rem auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 8rem;
+    column-gap: 3rem;
+    padding: 0rem;
+    place-items: center;
+
+    @media screen and (min-width: 650px) {
+      grid-template-columns: repeat(2, 1fr);
+      padding: 0rem 2rem;
+    }
+
+    @media screen and (min-width: 950px) {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @media screen and (min-width: 1200px) {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    @media screen and (min-width: 1600px) {
+      grid-template-columns: repeat(5, 1fr);
+    }
+  }
+
+  @media screen and (max-width: 650px) {
+    padding: 1rem;
+  }
+}
