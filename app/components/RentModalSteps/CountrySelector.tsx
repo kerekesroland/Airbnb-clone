@@ -1,6 +1,6 @@
 import useCountries from "@/hooks/useCountries";
 import { ICountryValue } from "@/inferfaces/ICountryValue";
-import { Box, Flex, Text, baseTheme } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import Select from "react-select";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 import RentModalHeader from "../RentModalHeader/RentModalHeader";
@@ -10,8 +10,10 @@ import { IRentInputProps } from "@/inferfaces/IRentInputProps";
 interface IProps {
   value: ICountryValue | undefined;
   onChange: (value: ICountryValue) => void;
-  errors: FieldErrors<IRentInputProps>;
-  countryValidation: boolean;
+  errors?: FieldErrors<IRentInputProps>;
+  countryValidation?: boolean;
+  headerTitle?: string;
+  headerSubtitle?: string;
 }
 
 const CountrySelector = ({
@@ -19,16 +21,18 @@ const CountrySelector = ({
   onChange,
   errors,
   countryValidation,
+  headerSubtitle,
+  headerTitle,
 }: IProps) => {
   const { getCountries } = useCountries();
   return (
     <>
       <RentModalHeader
-        title="Where is your place located?"
-        subTitle="Help us find your property!"
+        title={headerTitle || "Where is your place located?"}
+        subTitle={headerSubtitle || "Help us find your property!"}
       />
 
-      {countryValidation && <ErrorMessage error={errors.country?.message} />}
+      {countryValidation && <ErrorMessage error={errors?.country?.message} />}
       <Flex w="100%" my="1rem">
         <Select
           placeholder="Anywhere"
