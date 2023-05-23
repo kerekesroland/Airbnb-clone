@@ -7,14 +7,14 @@ import CustomButton from "../Button/Button";
 
 interface IPopupModalProps {
   isOpen?: boolean;
-  reset: () => void;
+  reset?: () => void;
   onClose: () => void;
   onSubmit: () => void;
   title: string;
   body?: React.ReactElement;
   footer?: React.ReactElement;
   actionLabel: string;
-  disabled: boolean;
+  disabled?: boolean;
   secondaryAction?: () => void;
   secondaryActionLabel?: string;
   noOverflow?: boolean;
@@ -45,7 +45,7 @@ const PopupModal = ({
     setShowModal(false);
     setTimeout(() => {
       onClose();
-      reset();
+      reset?.();
     }, 200);
   }, [disabled, onClose, reset]);
 
