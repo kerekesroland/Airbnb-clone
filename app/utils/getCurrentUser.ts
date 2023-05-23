@@ -5,8 +5,6 @@ import { authOptions } from "@/pages/api/auth/[...nextauth]";
 const getSession = async () => {
   return await getServerSession(authOptions);
 };
-
-//empty commit
 const getCurrentUser = async () => {
   try {
     const session = await getSession();
