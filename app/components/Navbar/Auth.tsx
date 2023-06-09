@@ -161,6 +161,7 @@ const Auth = ({ user }: IProps) => {
             >
               {user ? (
                 <>
+                  <MenuItem label="Home" onClick={() => router.push("/")} />
                   <MenuItem
                     label="My trips"
                     onClick={() => router.push("/trips")}

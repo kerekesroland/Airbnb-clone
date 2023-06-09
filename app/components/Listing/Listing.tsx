@@ -95,6 +95,7 @@ const Listing = ({
           w="100%"
         >
           <Image
+            loading={"lazy"}
             className={styles.image}
             src={listing?.image}
             quality={100}

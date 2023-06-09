@@ -14,7 +14,6 @@ const Trips = async () => {
 
   const reservations = await getReservations({ userId: user?.id });
 
-  console.log(reservations.length);
   if (reservations.length === 0) {
     return <NoInfo title="No trips yet" subtitle="Try making some!" />;
   }
